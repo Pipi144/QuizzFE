@@ -12,6 +12,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        cardBgColor: "#1e272e",
       },
       fontFamily: {
         concert: ["Concert One", "sans-serif"],
@@ -19,6 +20,10 @@ export default {
       },
       boxShadow: {
         navMenuShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
+        cardDarkShadow:
+          "0px 10px 25px rgba(0, 0, 0, 0.6), 0px 4px 10px rgba(255, 255, 255, 0.05)",
+        hoverCardDarkShadow:
+          "0px 12px 30px rgba(0, 0, 0, 0.7), 0px 5px 12px rgba(255, 255, 255, 0.07)",
       },
       borderRadius: {
         lg: "var(--radius)",

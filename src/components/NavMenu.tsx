@@ -25,9 +25,12 @@ const NavMenu = (props: Props) => {
           </span>
         </AnimatedGradientText>
       </Link>
-      <Button className="ml-auto bg-white hover:bg-white hover:bg-opacity-80 text-black ">
+      <Link
+        href={QuizAppRoutes.Login}
+        className="px-[20px] py-[5px] rounded-sm ml-auto bg-white hover:bg-white hover:bg-opacity-80 text-black "
+      >
         Login
-      </Button>
+      </Link>
     </div>
   );
 };
