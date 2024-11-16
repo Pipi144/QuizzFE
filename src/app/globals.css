@@ -2,7 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-html body {
+@import url("https://fonts.googleapis.com/css2?family=Concert+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gorditas:wght@400;700&display=swap");
+html,
+body {
   width: 100%;
   height: 100%;
   display: flex;
