@@ -1,4 +1,4 @@
-import { QuizAppRoutes } from "@/RoutePaths";
+import { QuizAPIRoutes, QuizAppRoutes } from "@/RoutePaths";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

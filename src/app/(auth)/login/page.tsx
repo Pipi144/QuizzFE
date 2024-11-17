@@ -37,9 +37,9 @@ const Login = (props: Props) => {
         <motion.form layout="size" onSubmit={onSubmit}>
           <div className="grid w-full items-center gap-4">
             <motion.div className="flex flex-col space-y-1.5" layout="position">
-              <Label htmlFor="name">Email</Label>
+              <Label htmlFor="email">Email</Label>
               <Input
-                id="name"
+                id="email"
                 placeholder="Enter your email..."
                 {...register("email")}
               />
@@ -54,9 +54,9 @@ const Login = (props: Props) => {
               )}
             </motion.div>
             <motion.div className="flex flex-col space-y-1.5" layout="position">
-              <Label htmlFor="name">Password</Label>
+              <Label htmlFor="password">Password</Label>
               <Input
-                id="name"
+                id="password"
                 placeholder="Enter your password..."
                 type="password"
                 {...register("password")}
