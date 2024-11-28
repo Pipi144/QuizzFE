@@ -13,6 +13,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         cardBgColor: "#1e272e",
+        btnDarkBgColor: "#222222",
+        btnDarkHoverBgColor: "#333333",
       },
       fontFamily: {
         concert: ["Concert One", "sans-serif"],
@@ -24,6 +26,9 @@ export default {
           "0px 10px 25px rgba(0, 0, 0, 0.6), 0px 4px 10px rgba(255, 255, 255, 0.05)",
         hoverCardDarkShadow:
           "0px 12px 30px rgba(0, 0, 0, 0.7), 0px 5px 12px rgba(255, 255, 255, 0.07)",
+      },
+      borderColor: {
+        btnDarkBorderColor: "#333333",
       },
       borderRadius: {
         lg: "var(--radius)",

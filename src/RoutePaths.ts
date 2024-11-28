@@ -1,4 +1,4 @@
-export const QuizAppRoutes = {
+const QuizAppRoutes = {
   Home: "/",
   Login: "/login",
   Register: "/register",
@@ -11,3 +11,8 @@ export const QuizAPIRoutes = {
   logout: "api/auth/logout",
   userProfile: "api/auth/me",
 };
+export const Authorized_Routes = [
+  QuizAppRoutes.QuestionList,
+  QuizAppRoutes.CreateQuestion,
+];
+export default QuizAppRoutes;

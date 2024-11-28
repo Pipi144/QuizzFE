@@ -1,10 +1,9 @@
-import { QuizAPIRoutes, QuizAppRoutes } from "@/RoutePaths";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import { Button } from "./ui/button";
 import iconImg from "../app/favicon.ico";
 import AnimatedGradientText from "./ui/animated-gradient-text";
+import QuizAppRoutes from "@/RoutePaths";
 
 type Props = {};
 
@@ -27,9 +26,17 @@ const NavMenu = (props: Props) => {
       </Link>
       <Link
         href={QuizAppRoutes.Login}
-        className="px-[20px] py-[5px] rounded-sm ml-auto bg-white hover:bg-white hover:bg-opacity-80 text-black "
+        className="px-[20px] py-[5px] rounded-sm ml-auto bg-white hover:bg-white hover:bg-opacity-80 text-black mr-[10px]"
       >
         Login
+      </Link>
+      <Link
+        href={QuizAppRoutes.Register}
+        className="px-[20px] py-[5px] border-[1px] border-solid border-btnDarkBorderColor
+         rounded-sm bg-btnDarkBgColor hover:bg-btnDarkHoverBgColor text-white 
+         transition-all duration-200 ease-linear cursor-pointer"
+      >
+        Sign up
       </Link>
     </div>
   );
