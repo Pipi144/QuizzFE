@@ -1,3 +1,4 @@
+import QuizAppRoutes from "@/RoutePaths";
 import { Button } from "@/components/ui/button";
 import {
   CardContent,
@@ -6,9 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import Link from "next/link";
 import React from "react";
+import RegisterForm from "./_components/RegisterForm";
 
 type Props = {};
 
@@ -17,25 +18,19 @@ const Register = (props: Props) => {
     <>
       <CardHeader>
         <CardTitle>Register</CardTitle>
-        <CardDescription>Login to start quizzing</CardDescription>
+        <CardDescription className="md:text-[14px]">
+          Already have an account?{" "}
+          <Link
+            href={QuizAppRoutes.Login}
+            className="text-sky-600 hover:text-sky-300 transition-all duration-200 ease-linear "
+          >
+            Login
+          </Link>
+        </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
-          <div className="grid w-full items-center gap-4">
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="name">Name</Label>
-              <Input id="name" placeholder="Name of your project" />
-            </div>
-            <div className="flex flex-col space-y-1.5">
-              <Label htmlFor="framework">Framework</Label>
-            </div>
-          </div>
-        </form>
+        <RegisterForm />
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Cancel</Button>
-        <Button>Deploy</Button>
-      </CardFooter>
     </>
   );
 };

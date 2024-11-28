@@ -1,23 +1,21 @@
 "use client";
-
+import { TRegisterState } from "@/models/AuthModels";
+import React, { useActionState } from "react";
+import { handleRegister } from "../action";
 import { AnimationProps, motion } from "framer-motion";
-import React, { useActionState, useCallback } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
-import { TLoginState } from "../../../../models/AuthModels";
-import { handleLogin } from "../actions";
 
 type Props = {};
 
-const LoginForm = (props: Props) => {
+const RegisterForm = (props: Props) => {
   const [state, dispatch, isPending] = useActionState<
-    TLoginState | undefined,
+    TRegisterState | undefined,
     FormData
   >(async (prev, formData) => {
-    let result = await handleLogin(formData);
+    let result = await handleRegister(formData);
     return result;
   }, {});
 
@@ -38,7 +36,7 @@ const LoginForm = (props: Props) => {
     >
       <div className="grid w-full items-center gap-4">
         <motion.div className="flex flex-col space-y-1.5" layout="position">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Email </Label>
           <Input
             id="email"
             placeholder="Enter your email..."
@@ -73,7 +71,42 @@ const LoginForm = (props: Props) => {
             </motion.span>
           )}
         </motion.div>
-
+        <motion.div className="flex flex-col space-y-1.5" layout="position">
+          <Label htmlFor="firstName">First name</Label>
+          <Input
+            id="firstName"
+            placeholder="Enter your first name..."
+            name="firstName"
+            defaultValue={state?.firstName}
+          />
+        </motion.div>
+        <motion.div className="flex flex-col space-y-1.5" layout="position">
+          <Label htmlFor="givenName">Given name</Label>
+          <Input
+            id="givenName"
+            placeholder="Enter your middle name..."
+            name="givenName"
+            defaultValue={state?.givenName}
+          />
+        </motion.div>
+        <motion.div className="flex flex-col space-y-1.5" layout="position">
+          <Label htmlFor="lastName">Last name</Label>
+          <Input
+            id="lastName"
+            placeholder="Enter your family name..."
+            name="lastName"
+            defaultValue={state?.lastName}
+          />
+        </motion.div>
+        <motion.div className="flex flex-col space-y-1.5" layout="position">
+          <Label htmlFor="nickName">Nick name</Label>
+          <Input
+            id="nickName"
+            placeholder="Enter your nickname..."
+            name="nickName"
+            defaultValue={state?.nickName}
+          />
+        </motion.div>
         {state?.serverErrors && (
           <motion.span
             className="text-red-500 text-[12px]"
@@ -90,11 +123,17 @@ const LoginForm = (props: Props) => {
         type="submit"
         disabled={isPending}
       >
-        Login
-        {isPending && <Spinner size="medium" className="text-white " />}
+        {isPending ? (
+          <>
+            Submitting...
+            <Spinner size="medium" className="text-white " />
+          </>
+        ) : (
+          "Submit"
+        )}
       </Button>
     </motion.form>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;
