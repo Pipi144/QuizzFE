@@ -1,9 +1,13 @@
+export const AUTHORIZED_PREFIX = "/authorized";
+
 const QuizAppRoutes = {
   Home: "/",
   Login: "/login",
   Register: "/register",
-  CreateQuestion: "/create-question",
-  QuestionList: "/questions",
+
+  // authorized paths
+  CreateQuestion: AUTHORIZED_PREFIX + "/create-question",
+  QuestionList: AUTHORIZED_PREFIX + "/questions",
 };
 
 export const QuizAPIRoutes = {

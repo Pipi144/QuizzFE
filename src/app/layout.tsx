@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NavMenu from "@/components/NavMenu";
+import NavMenu from "@/app/@navbar/page";
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
@@ -10,8 +10,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  navbar,
 }: Readonly<{
   children: React.ReactNode;
+  navbar: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -25,7 +27,7 @@ export default function RootLayout({
       </head>
 
       <body className="bg-[url('../assets/images/background.jpg')] bg-cover bg-center">
-        <NavMenu />
+        {navbar}
         <div className="flex-1 flex w-full">{children}</div>
         <Toaster />
       </body>

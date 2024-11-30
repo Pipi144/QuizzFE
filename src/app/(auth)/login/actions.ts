@@ -4,11 +4,13 @@ import { baseAddress } from "@/baseAddress";
 import { TLoginState } from "../../../models/AuthModels";
 import * as z from "zod";
 import { cookies } from "next/headers";
-import { COOKIES_KEYS } from "@/cookies";
+import { COOKIES_KEYS } from "@/utils/cookies";
 import { redirect } from "next/navigation";
 import QuizAppRoutes from "@/RoutePaths";
 import { TTokenCookies } from "@/models/CookiesModels";
 import dayjs from "dayjs";
+import { revalidateTag } from "next/cache";
+import { API_TAG } from "@/utils/apiTags";
 
 const schema = z.object({
   email: z
@@ -39,7 +41,6 @@ export const handleLogin = async (
     email: email.toString(),
     password: password.toString(),
   };
-  let isLoggedIn = false;
   try {
     //validate form data
     if (!validation.success) {
@@ -59,7 +60,6 @@ export const handleLogin = async (
       body: JSON.stringify({ email, password }),
     });
     const respJs = await response.json();
-    console.log(respJs);
     if (!response.ok) {
       returnedState.serverErrors = [respJs.error_description] ?? [
         "Failed to login",
@@ -68,25 +68,19 @@ export const handleLogin = async (
       return returnedState;
     }
 
-    if (respJs.accessToken && respJs.expiresIn) {
-      isLoggedIn = true;
-      const tokenCookies: TTokenCookies = {
-        accessToken: respJs.accessToken,
-        expired: dayjs().unix() + Number(respJs.expiresIn),
-      }; // save the token to cookies and expired time
-      (await cookies()).set(
-        COOKIES_KEYS.AccessToken,
-        JSON.stringify(tokenCookies)
-      );
-    } else {
-      returnedState.serverErrors = ["No token returned"];
-      return returnedState;
-    }
+    const tokenCookies: TTokenCookies = {
+      accessToken: respJs.accessToken,
+      expired: dayjs().unix() + Number(respJs.expiresIn),
+    }; // save the token and expired time to cookies
+    (await cookies()).set(
+      COOKIES_KEYS.AccessToken,
+      JSON.stringify(tokenCookies)
+    );
   } catch (error) {
     console.log("ERROR:", error);
     returnedState.serverErrors = ["Unknown error"];
     return returnedState;
   }
-
-  if (isLoggedIn) redirect(QuizAppRoutes.QuestionList);
+  revalidateTag(API_TAG.CurrentUserInfo);
+  redirect(QuizAppRoutes.QuestionList); // redirect to question list when successfully login
 };
