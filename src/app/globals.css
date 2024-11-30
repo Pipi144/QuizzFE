@@ -19,3 +19,25 @@ body {
     --radius: 0.5rem;
   }
 }
+.user-list-table {
+  @apply bg-cardBgColor rounded-md w-full p-3 text-white font-concert;
+}
+
+.user-list-table td {
+  @apply p-3;
+}
+.user-list-header th {
+  @apply font-[400] text-base  text-start p-3;
+}
+
+.user-list-item {
+  @apply w-full py-[10px] border-b-[1px] border-slate-300 border-solid;
+}
+
+.user-list-item td:nth-child(3) {
+  @apply flex flex-row items-center justify-end;
+}
+
+.user-list-footer td {
+  @apply flex flex-row items-center;
+}

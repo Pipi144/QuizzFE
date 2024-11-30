@@ -2,14 +2,14 @@
 
 import { baseAddress } from "@/baseAddress";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { TUser } from "@/models/user";
+import { TUserDetail } from "@/models/user";
 import { API_TAG } from "@/utils/apiTags";
 import { cookies } from "next/headers";
 
 import QuizAppRoutes from "@/RoutePaths";
 import { redirect } from "next/navigation";
 
-export const getCrtUserInfo = async (): Promise<TUser | undefined> => {
+export const getCrtUserInfo = async (): Promise<TUserDetail | undefined> => {
   try {
     console.log("LOAD getCrtUserInfo");
     const accessToken = await getValidCookieToken();

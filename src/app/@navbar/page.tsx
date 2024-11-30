@@ -7,6 +7,7 @@ import QuizAppRoutes from "@/RoutePaths";
 import { getCrtUserInfo, logOut } from "./actions";
 import AnimatedButton from "@/components/animated-button";
 import { IoLogOutOutline } from "react-icons/io5";
+import MenuItem from "./_components/MenuItem";
 
 type Props = {};
 
@@ -35,15 +36,16 @@ const NavMenu = async (props: Props) => {
 
       {userInfo ? (
         <>
-          <Link
-            href={QuizAppRoutes.QuestionList}
-            className="mx-2 text-white font-concert text-base"
-          >
-            Questions
-          </Link>
-          <AnimatedButton className="ml-auto text-white rounded-full bg-fuchsia-500 px-[10px] py-[5px] uppercase line leading-none">
-            {userInfo.name?.[0]}
-            {userInfo.familyName?.[0]}
+          <MenuItem itemText="Questions" itemUrl={QuizAppRoutes.QuestionList} />
+          <MenuItem itemText="Manage users" itemUrl={QuizAppRoutes.Users} />
+          <AnimatedButton className="ml-auto">
+            <Image
+              width={25}
+              height={25}
+              src={userInfo.pictureUrl}
+              alt="App icon"
+              className="md:w-[30px] md:h-[30px] object-cover overflow-hidden rounded-full"
+            />
           </AnimatedButton>
           <AnimatedButton
             animatedVariants="fadeInRight"

@@ -8,6 +8,7 @@ const QuizAppRoutes = {
   // authorized paths
   CreateQuestion: AUTHORIZED_PREFIX + "/create-question",
   QuestionList: AUTHORIZED_PREFIX + "/questions",
+  Users: AUTHORIZED_PREFIX + "/users",
 };
 
 export const QuizAPIRoutes = {
