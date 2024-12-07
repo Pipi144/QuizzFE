@@ -13,7 +13,7 @@ type Props = {};
 
 const NavMenu = async (props: Props) => {
   const userInfo = await getCrtUserInfo();
-  console.log(userInfo);
+
   return (
     <div className="shadow-navMenuShadow w-full fixed top-0 max-w-[1280px] p-[20px] self-center flex flex-row items-center">
       <Link

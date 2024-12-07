@@ -11,9 +11,7 @@ import { redirect } from "next/navigation";
 
 export const getCrtUserInfo = async (): Promise<TUserDetail | undefined> => {
   try {
-    console.log("LOAD getCrtUserInfo");
     const accessToken = await getValidCookieToken();
-    console.log("ACCESS TOKEN:", accessToken);
     if (!accessToken) return;
     const header = new Headers();
     header.set("Authorization", `Bearer ${accessToken.accessToken}`);
@@ -25,13 +23,13 @@ export const getCrtUserInfo = async (): Promise<TUserDetail | undefined> => {
       headers: header,
     });
     if (!resp.ok) {
-      console.log(resp);
+      console.log("getCrtUserInfo:", resp.status);
       return;
     }
 
     return resp.json();
   } catch (error) {
-    console.log("ERROR:", error);
+    console.log("ERROR :", error);
   }
 };
 

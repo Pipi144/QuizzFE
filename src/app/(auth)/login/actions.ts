@@ -74,7 +74,14 @@ export const handleLogin = async (
     }; // save the token and expired time to cookies
     (await cookies()).set(
       COOKIES_KEYS.AccessToken,
-      JSON.stringify(tokenCookies)
+      JSON.stringify(tokenCookies),
+      {
+        httpOnly: true, // Prevents access via JavaScript
+        secure: process.env.NODE_ENV === "production", // Ensures cookie is only sent over HTTPS in production
+        sameSite: "strict", // Protects against CSRF
+        maxAge: 0.95 * respJs.expiresIn,
+        path: "/",
+      }
     );
   } catch (error) {
     console.log("ERROR:", error);

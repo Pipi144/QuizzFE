@@ -7,6 +7,7 @@ type Props = {
 
 const UserTableFooter = ({ totalItems, itemPerPage }: Props) => {
   const totalPageNum = Math.ceil(totalItems / itemPerPage);
+
   return (
     <tfoot className="user-list-footer">
       <tr>

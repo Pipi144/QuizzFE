@@ -1,5 +1,5 @@
 export const AUTHORIZED_PREFIX = "/authorized";
-
+export const USERS_BASE_ROUTE = AUTHORIZED_PREFIX + "/users";
 const QuizAppRoutes = {
   Home: "/",
   Login: "/login",
@@ -8,16 +8,14 @@ const QuizAppRoutes = {
   // authorized paths
   CreateQuestion: AUTHORIZED_PREFIX + "/create-question",
   QuestionList: AUTHORIZED_PREFIX + "/questions",
-  Users: AUTHORIZED_PREFIX + "/users",
+
+  //User routes
+  Users: USERS_BASE_ROUTE,
 };
 
-export const QuizAPIRoutes = {
-  login: "/api/auth/login",
-  logout: "api/auth/logout",
-  userProfile: "api/auth/me",
-};
-export const Authorized_Routes = [
-  QuizAppRoutes.QuestionList,
-  QuizAppRoutes.CreateQuestion,
+export const Unauthorized_Routes = [
+  QuizAppRoutes.Login,
+  QuizAppRoutes.Register,
+  QuizAppRoutes.Home,
 ];
 export default QuizAppRoutes;

@@ -26,18 +26,35 @@ body {
 .user-list-table td {
   @apply p-3;
 }
+.user-list-header {
+  @apply w-full border-slate-500 border-b-[1px] border-solid;
+}
 .user-list-header th {
-  @apply font-[400] text-base  text-start p-3;
+  @apply font-[400] text-base  text-start py-3 px-6;
 }
 
 .user-list-item {
-  @apply w-full py-[10px] border-b-[1px] border-slate-300 border-solid;
+  @apply w-full  border-b-[1px] border-slate-500 border-solid;
 }
-
+.user-list-item td {
+  @apply py-3 px-6;
+}
 .user-list-item td:nth-child(3) {
   @apply flex flex-row items-center justify-end;
 }
 
 .user-list-footer td {
   @apply flex flex-row items-center;
+}
+
+.double-field-wrapper {
+  @apply w-full flex flex-row flex-wrap justify-between items-center p-3;
+}
+
+.input-disabled {
+  @apply disabled:border-none disabled:p-0 disabled:!cursor-pointer;
+}
+
+.custom-scrollbar {
+  @apply scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent;
 }

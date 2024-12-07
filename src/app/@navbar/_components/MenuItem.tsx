@@ -15,10 +15,10 @@ const MenuItem = ({ itemText, itemUrl }: Props) => {
     <Link
       href={itemUrl}
       className={`mx-2 ${
-        currentPath === itemUrl
+        currentPath.startsWith(itemUrl)
           ? "text-cyan-400 font-bold"
           : "text-white font-[400]"
-      } font-concert text-base hover:underline`}
+      } font-concert text-base hover:underline ml-5`}
     >
       {itemText}
     </Link>

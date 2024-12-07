@@ -4,9 +4,9 @@ export enum USER_ROLES {
 }
 
 export type TUserRole = {
-  id: string;
-  name: USER_ROLES;
-  description: string;
+  roleId: string;
+  roleName: USER_ROLES;
+  roleDescription: string;
 };
 
 export type TBasicUser = {
@@ -18,7 +18,7 @@ export type TBasicUser = {
   email?: string;
   emailVerified: boolean;
   updatedAt?: string;
-  pictureUrl?: string;
+  pictureUrl: string;
 };
 
 export type TUserDetail = TBasicUser & {

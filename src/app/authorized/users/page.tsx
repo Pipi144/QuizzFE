@@ -1,6 +1,5 @@
 import React from "react";
 import { getUserList } from "./actions";
-import { Button } from "@/components/ui/button";
 import UserRow from "./_components/UserRow";
 import UserTableFooter from "./_components/UserTableFooter";
 
@@ -19,7 +18,7 @@ const UserList = async (props: Props) => {
       ) : (
         <table className="user-list-table">
           <thead>
-            <tr className="w-full user-list-header">
+            <tr className="user-list-header">
               <th colSpan={3}>Email</th>
               <th colSpan={2}>Last updated</th>
               <th colSpan={1}></th>
