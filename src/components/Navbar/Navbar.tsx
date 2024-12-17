@@ -1,19 +1,19 @@
 import QuizAppRoutes from "@/RoutePaths";
-import AnimatedGradientText from "@/components/ui/animated-gradient-text";
+import { getCrtUserInfo } from "@/lib/usersApi";
 import Link from "next/link";
 import React from "react";
+import AnimatedGradientText from "../ui/animated-gradient-text";
+import MenuItem from "./MenuItem";
+import AnimatedButton from "../animated-button";
 import Image from "next/image";
-import iconImg from "../favicon.ico";
-import { getCrtUserInfo, logOut } from "./actions";
-import AnimatedButton from "@/components/animated-button";
-import { IoLogOutOutline } from "react-icons/io5";
-import MenuItem from "./_components/MenuItem";
+import iconImg from "../../app/favicon.ico";
+import LogoutBtn from "./LogoutBtn";
 
 type Props = {};
 
-const NavDefault = async (props: Props) => {
+const Navbar = async (props: Props) => {
   const userInfo = await getCrtUserInfo();
-  console.log(userInfo);
+  console.log("NAV BAR RERENDER:", userInfo);
   return (
     <div className="shadow-navMenuShadow w-full fixed top-0 max-w-[1280px] p-[20px] self-center flex flex-row items-center">
       <Link
@@ -47,13 +47,7 @@ const NavDefault = async (props: Props) => {
               className="md:w-[30px] md:h-[30px] object-cover overflow-hidden rounded-full"
             />
           </AnimatedButton>
-          <AnimatedButton
-            animatedVariants="fadeInRight"
-            className="ml-[15px]"
-            onClick={logOut}
-          >
-            <IoLogOutOutline className="text-white" size={25} />
-          </AnimatedButton>
+          <LogoutBtn />
         </>
       ) : (
         <>
@@ -77,4 +71,4 @@ const NavDefault = async (props: Props) => {
   );
 };
 
-export default NavDefault;
+export default Navbar;

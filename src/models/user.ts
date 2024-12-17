@@ -26,6 +26,5 @@ export type TUserDetail = TBasicUser & {
   birthDate?: string;
   phoneNumber?: number;
   phoneNumberVerified?: boolean;
-
   userRoles: TUserRole[];
 };

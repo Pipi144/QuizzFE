@@ -1,27 +1,47 @@
-"use server";
-
 import { COOKIES_KEYS } from "@/utils/cookies";
-import { TTokenCookies } from "@/models/CookiesModels";
-import dayjs from "dayjs";
 import { cookies } from "next/headers";
+import { ZodIssue } from "zod";
 
-export const getValidCookieToken = async (): Promise<
-  TTokenCookies | undefined
-> => {
+export const clearAllCookies = async () => {
   const cookiesStore = await cookies();
-  // check access token in cookies if it is valid
 
-  const cookieTokenString = cookiesStore.get(COOKIES_KEYS.AccessToken);
-  const accessToken = cookieTokenString
-    ? (JSON.parse(cookieTokenString.value) as TTokenCookies)
-    : undefined;
-  const currentTime = dayjs().unix() - 60; // make allowance for 1 minutes
-  const isTokenValid = Boolean(
-    accessToken && accessToken.expired > currentTime
-  ); // if cookies has token and the token not expired
-  if (!isTokenValid) {
-    return;
+  // Get all cookies
+  const allCookies = cookiesStore.getAll();
+
+  // Delete each cookie
+  allCookies.forEach((cookie) => {
+    cookiesStore.set(cookie.name, cookie.value, {
+      httpOnly: true, // Prevents access via JavaScript
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // Protects against CSRF
+      maxAge: -1,
+      path: "/",
+    });
+  });
+};
+export const getValidCookieToken = async (): Promise<string | undefined> => {
+  try {
+    const cookiesStore = await cookies();
+    // check access token in cookies if it is valid
+
+    const accessToken = cookiesStore.get(COOKIES_KEYS.AccessToken);
+
+    if (accessToken) return accessToken.value;
+  } catch (error) {
+    console.log("ERROR IN getValidCookieToken:", error);
   }
 
-  return accessToken;
+  clearAllCookies();
+};
+
+export const findErrors = async (fieldName: string, errors: ZodIssue[]) => {
+  try {
+    return (errors ?? [])
+      .filter((item) => {
+        return item.path.includes(fieldName);
+      })
+      .map((item) => item.message);
+  } catch (error) {
+    console.log("ERROR IN findErrors");
+  }
 };

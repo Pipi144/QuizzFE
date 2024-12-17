@@ -1,5 +1,4 @@
 import React from "react";
-import { getUserRoles } from "../../actions";
 import {
   Select,
   SelectContent,
@@ -9,6 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { TUserDetail } from "@/models/user";
+import { getUserRoles } from "@/lib/usersApi";
 
 type Props = {
   user: TUserDetail;
@@ -16,11 +16,10 @@ type Props = {
 
 async function UserRoleSelect({ user }: Props) {
   const allRoles = await getUserRoles();
-
   return (
     <div className="flex flex-col space-y-1.5 w-full md:w-[40%]">
       <Label htmlFor={"userRole"}>Role</Label>
-      <Select defaultValue={user.userRoles[0]?.roleId}>
+      <Select defaultValue={user.userRoles[0]?.roleId} name="newRoleId">
         <SelectTrigger className="w-[180px] p-2">
           <SelectValue placeholder="User Role" />
         </SelectTrigger>

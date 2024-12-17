@@ -19,7 +19,7 @@ type Props = {
 const UserRow = ({ user }: Props) => {
   return (
     <tr className="user-list-item">
-      <td colSpan={3}>{user.email}</td>
+      <td colSpan={5}>{user.email} </td>
       <td colSpan={2}>{dayjs(user.updatedAt).format("DD-MM-YYYY - h:mm a")}</td>
       <td colSpan={1}>
         <TooltipProvider>

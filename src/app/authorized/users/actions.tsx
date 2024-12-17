@@ -1,102 +1,77 @@
 "use server";
 
 import { baseAddress } from "@/baseAddress";
-import { TBasicUser, TUserRole } from "@/models/user";
-import { API_TAG } from "@/utils/apiTags";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-type TGetUserListParams = {
-  page?: number;
-  limitPerPage?: number;
-  search?: string;
-};
+import { findErrors, getValidCookieToken } from "@/utils/serverHelperFnc";
+import * as z from "zod";
+import { TUpdateUserState } from "./[id]/page";
+import { revalidatePath } from "next/cache";
 
-type TGetUserListResponse = {
-  start: number;
-  limit: number;
-  users: TBasicUser[];
-  total: number;
-};
-export async function getUserList({
-  page = 0,
-  limitPerPage = 10,
-  search,
-}: TGetUserListParams): Promise<TGetUserListResponse | undefined> {
+import QuizAppRoutes from "@/RoutePaths";
+import { redirect } from "next/navigation";
+
+const schema = z.object({
+  name: z.string().min(5, "Name must be at least 5 characters"),
+  userId: z.string().min(1, "Missing user id"),
+});
+
+export const updateUser = async (
+  formData: FormData
+): Promise<TUpdateUserState | undefined> => {
+  const name = formData.get("name")?.toString() ?? "";
+  const userId = formData.get("userId")?.toString() ?? "";
+  const nickName = formData.get("nickName")?.toString() ?? "";
+  const currentRoleId = formData.get("currentRoleId")?.toString() ?? "";
+  const newRoleId = formData.get("newRoleId")?.toString() ?? "";
+  const validation = schema.safeParse({
+    name,
+    userId,
+  });
+  let returnedState: TUpdateUserState = {
+    name,
+    nickName,
+  };
+  console.log("UPDATE USER");
+  if (!validation.success) {
+    returnedState.errorName = await findErrors("name", validation.error.issues);
+    returnedState.errorServer = await findErrors(
+      "userId",
+      validation.error.issues
+    );
+    return returnedState;
+  }
+
   try {
     const accessToken = await getValidCookieToken();
     if (!accessToken) return;
     const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken.accessToken}`);
-    const searchParams = new URLSearchParams();
-    searchParams.set("Page", `${page}`);
-    searchParams.set("PageSize", `${limitPerPage}`);
-    if (search) searchParams.set("Search", `${search}`);
-    const url = new URL(`${baseAddress}/api/User?` + searchParams.toString());
-
-    const resp = await fetch(url, {
-      method: "GET",
-      next: {
-        tags: [API_TAG.UserList],
-      },
-      headers: header,
+    header.set("Authorization", `Bearer ${accessToken}`);
+    header.set("Content-Type", "application/json");
+    let body = JSON.stringify({
+      name,
+      nickName,
+      roleId: currentRoleId !== newRoleId ? newRoleId : null,
     });
-    if (!resp.ok) {
-      console.log("ERROR USER LIST:", resp);
-      return;
-    }
 
-    return resp.json();
-  } catch (error) {
-    console.log("ERROR ERROR USER LIST:", error);
-  }
-}
-
-export const getUserById = async (
-  id: string
-): Promise<TBasicUser | undefined> => {
-  try {
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken.accessToken}`);
-
-    const resp = await fetch(`${baseAddress}/api/User/${id}`, {
-      method: "GET",
-      next: {
-        tags: [`${API_TAG.UserList}-${id}`],
-        revalidate: 10,
-      },
-      headers: header,
-    });
-    if (!resp.ok) {
-      console.log("error getUserById:", resp);
-      return;
-    }
-
-    return resp.json();
-  } catch (error) {
-    console.log("ERROR:", error);
-  }
-};
-
-export const getUserRoles = async (): Promise<TUserRole[] | undefined> => {
-  try {
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken.accessToken}`);
-
-    const resp = await fetch(`${baseAddress}/api/User/user-roles`, {
-      method: "GET",
+    const resp = await fetch(`${baseAddress}/api/User/${userId}`, {
+      method: "PATCH",
 
       headers: header,
-    });
-    if (!resp.ok) {
-      console.log("error getUserRoles:", resp);
-      return;
-    }
 
-    return resp.json();
+      body,
+    });
+    const respJs = await resp.json();
+    console.log("EDIT USER ACTION:", respJs);
+    if (!resp.ok) {
+      returnedState.errorServer = [
+        respJs.error_description ?? "Failed to update user",
+      ];
+
+      return returnedState;
+    }
   } catch (error) {
-    console.log("ERROR:", error);
+    returnedState.errorServer = ["Error update user: " + error];
   }
+
+  revalidatePath(QuizAppRoutes.Users, "layout");
+  redirect(QuizAppRoutes.Users);
 };

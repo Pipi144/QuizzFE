@@ -37,10 +37,7 @@ const EditUserField = ({
       />
 
       {fieldError && (
-        <motion.span
-          className="text-red-500 text-[12px]"
-          animate={animationConfig}
-        >
+        <motion.span className="error-text" animate={animationConfig}>
           {fieldError.join(", ")}
         </motion.span>
       )}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import Navbar from "@/components/Navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "PiQuiz",
@@ -9,10 +10,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  navbar,
 }: Readonly<{
   children: React.ReactNode;
-  navbar: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -26,7 +25,7 @@ export default function RootLayout({
       </head>
 
       <body className="bg-[url('../assets/images/background.jpg')] bg-cover bg-center">
-        {navbar}
+        <Navbar />
         <div className="flex-1 flex w-full">{children}</div>
         <Toaster />
       </body>

@@ -18,4 +18,9 @@ export const Unauthorized_Routes = [
   QuizAppRoutes.Register,
   QuizAppRoutes.Home,
 ];
+
+export const QuizAPIRoutes = {
+  UserList: "/api/users",
+  Logout: "/api/logout",
+};
 export default QuizAppRoutes;

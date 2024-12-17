@@ -10,8 +10,8 @@ const UserTableFooter = ({ totalItems, itemPerPage }: Props) => {
 
   return (
     <tfoot className="user-list-footer">
-      <tr>
-        <td>77</td>
+      <tr className="w-full">
+        <td className="w-full flex flex-row items-center justify-center">ss</td>
       </tr>
     </tfoot>
   );

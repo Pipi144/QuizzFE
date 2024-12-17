@@ -7,10 +7,9 @@ import { cookies } from "next/headers";
 import { COOKIES_KEYS } from "@/utils/cookies";
 import { redirect } from "next/navigation";
 import QuizAppRoutes from "@/RoutePaths";
-import { TTokenCookies } from "@/models/CookiesModels";
-import dayjs from "dayjs";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
+import { findErrors } from "@/utils/serverHelperFnc";
 
 const schema = z.object({
   email: z
@@ -19,14 +18,6 @@ const schema = z.object({
     .email({ message: "Invalid email address" }),
   password: z.string().min(1, "Password required"),
 });
-
-const findErrors = (fieldName: string, errors: z.ZodIssue[]) => {
-  return (errors ?? [])
-    .filter((item) => {
-      return item.path.includes(fieldName);
-    })
-    .map((item) => item.message);
-};
 
 export const handleLogin = async (
   formData: FormData
@@ -44,8 +35,11 @@ export const handleLogin = async (
   try {
     //validate form data
     if (!validation.success) {
-      returnedState.emailErrors = findErrors("email", validation.error.issues);
-      returnedState.passwordErrors = findErrors(
+      returnedState.emailErrors = await findErrors(
+        "email",
+        validation.error.issues
+      );
+      returnedState.passwordErrors = await findErrors(
         "password",
         validation.error.issues
       );
@@ -61,28 +55,21 @@ export const handleLogin = async (
     });
     const respJs = await response.json();
     if (!response.ok) {
-      returnedState.serverErrors = [respJs.error_description] ?? [
-        "Failed to login",
-      ];
+      returnedState.serverErrors = respJs.error_description
+        ? [respJs.error_description]
+        : ["Failed to login"];
 
       return returnedState;
     }
-
-    const tokenCookies: TTokenCookies = {
-      accessToken: respJs.accessToken,
-      expired: dayjs().unix() + Number(respJs.expiresIn),
-    }; // save the token and expired time to cookies
-    (await cookies()).set(
-      COOKIES_KEYS.AccessToken,
-      JSON.stringify(tokenCookies),
-      {
-        httpOnly: true, // Prevents access via JavaScript
-        secure: process.env.NODE_ENV === "production", // Ensures cookie is only sent over HTTPS in production
-        sameSite: "strict", // Protects against CSRF
-        maxAge: 0.95 * respJs.expiresIn,
-        path: "/",
-      }
-    );
+    console.log("ACCESS TOKEIN LOG IN:", respJs.accessToken);
+    const cookiesStore = await cookies();
+    cookiesStore.set(COOKIES_KEYS.AccessToken, respJs.accessToken, {
+      httpOnly: true, // Prevents access via JavaScript
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // Protects against CSRF
+      maxAge: 0.95 * respJs.expiresIn,
+      path: "/",
+    });
   } catch (error) {
     console.log("ERROR:", error);
     returnedState.serverErrors = ["Unknown error"];

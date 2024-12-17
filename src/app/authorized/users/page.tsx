@@ -1,10 +1,15 @@
 import React from "react";
-import { getUserList } from "./actions";
 import UserRow from "./_components/UserRow";
 import UserTableFooter from "./_components/UserTableFooter";
+import { Metadata } from "next";
+import { getUserList } from "@/lib/usersApi";
 
 type Props = {};
 
+export const metadata: Metadata = {
+  title: "Users",
+  description: "All users information",
+};
 const UserList = async (props: Props) => {
   const userListResp = await getUserList({});
 
@@ -19,7 +24,7 @@ const UserList = async (props: Props) => {
         <table className="user-list-table">
           <thead>
             <tr className="user-list-header">
-              <th colSpan={3}>Email</th>
+              <th colSpan={5}>Email</th>
               <th colSpan={2}>Last updated</th>
               <th colSpan={1}></th>
             </tr>

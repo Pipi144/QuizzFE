@@ -5,6 +5,7 @@ import { TLoginState } from "../../../models/AuthModels";
 import * as z from "zod";
 import { redirect } from "next/navigation";
 import QuizAppRoutes from "@/RoutePaths";
+import { findErrors } from "@/utils/serverHelperFnc";
 
 const schema = z.object({
   email: z
@@ -17,14 +18,6 @@ const schema = z.object({
   lastName: z.string(),
   nickName: z.string(),
 });
-
-const findErrors = (fieldName: string, errors: z.ZodIssue[]) => {
-  return (errors ?? [])
-    .filter((item) => {
-      return item.path.includes(fieldName);
-    })
-    .map((item) => item.message);
-};
 
 export const handleRegister = async (
   formData: FormData
@@ -51,8 +44,11 @@ export const handleRegister = async (
   try {
     //validate form data
     if (!validation.success) {
-      returnedState.emailErrors = findErrors("email", validation.error.issues);
-      returnedState.passwordErrors = findErrors(
+      returnedState.emailErrors = await findErrors(
+        "email",
+        validation.error.issues
+      );
+      returnedState.passwordErrors = await findErrors(
         "password",
         validation.error.issues
       );
@@ -74,7 +70,6 @@ export const handleRegister = async (
       }),
     });
     const respJs = await response.json();
-    console.log(respJs);
     if (!response.ok) {
       returnedState.serverErrors = [respJs.error_description] ?? [
         "Failed to register",

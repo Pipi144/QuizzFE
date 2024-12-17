@@ -20,7 +20,7 @@ body {
   }
 }
 .user-list-table {
-  @apply bg-cardBgColor rounded-md w-full p-3 text-white font-concert;
+  @apply rounded-md w-full p-3 text-white font-concert;
 }
 
 .user-list-table td {
@@ -57,4 +57,23 @@ body {
 
 .custom-scrollbar {
   @apply scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent;
+}
+
+.back-btn {
+  @apply p-0 flex flex-row items-center mb-3 bg-transparent text-base self-start h-fit;
+}
+
+.submit-btn {
+  @apply bg-blue-400 hover:!bg-blue-400 hover:bg-opacity-80 text-white font-concert text-base mx-3 rounded-md;
+}
+
+.error-text {
+  @apply text-red-500 text-xs font-concert;
+}
+
+.label-text {
+  @apply text-gray-200 font-Gorditas text-base;
+}
+.detail-text {
+  @apply text-white ml-auto font-concert;
 }
