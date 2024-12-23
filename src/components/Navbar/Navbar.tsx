@@ -1,5 +1,5 @@
 import QuizAppRoutes from "@/RoutePaths";
-import { getCrtUserInfo } from "@/lib/usersApi";
+
 import Link from "next/link";
 import React from "react";
 import AnimatedGradientText from "../ui/animated-gradient-text";
@@ -8,12 +8,39 @@ import AnimatedButton from "../animated-button";
 import Image from "next/image";
 import iconImg from "../../app/favicon.ico";
 import LogoutBtn from "./LogoutBtn";
+import { getValidCookieToken } from "@/utils/serverHelperFnc";
+import { baseAddress } from "@/baseAddress";
+import { API_TAG } from "@/utils/apiTags";
 
 type Props = {};
+const getCrtUserInfo = async () => {
+  try {
+    console.log("GET CURRENT USER INFO");
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) return;
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    const resp = await fetch(`${baseAddress}/api/User/current-user-info`, {
+      method: "GET",
+      next: {
+        tags: [API_TAG.CurrentUserInfo],
+      },
+      headers: header,
+    });
+    const respJson = await resp.json();
+    if (!resp.ok) {
+      console.log("getCrtUserInfo:", respJson);
+      return;
+    }
 
+    return respJson;
+  } catch (error) {
+    console.log("ERROR :", error);
+  }
+};
 const Navbar = async (props: Props) => {
   const userInfo = await getCrtUserInfo();
-  console.log("NAV BAR RERENDER:", userInfo);
+
   return (
     <div className="shadow-navMenuShadow w-full fixed top-0 max-w-[1280px] p-[20px] self-center flex flex-row items-center">
       <Link

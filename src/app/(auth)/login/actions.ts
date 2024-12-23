@@ -61,13 +61,13 @@ export const handleLogin = async (
 
       return returnedState;
     }
-    console.log("ACCESS TOKEIN LOG IN:", respJs.accessToken);
     const cookiesStore = await cookies();
     cookiesStore.set(COOKIES_KEYS.AccessToken, respJs.accessToken, {
       httpOnly: true, // Prevents access via JavaScript
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict", // Protects against CSRF
-      maxAge: 0.95 * respJs.expiresIn,
+      // maxAge: 0.95 * respJs.expiresIn,
+      maxAge: 5,
       path: "/",
     });
   } catch (error) {

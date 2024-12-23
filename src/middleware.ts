@@ -11,8 +11,8 @@ export function middleware(rq: NextRequest) {
 
   // redirect to login page if accessing authorized pages without access token
   if (rq.nextUrl.pathname.startsWith(AUTHORIZED_PREFIX) && !cookieToken) {
-    console.log("MIDDLEWARE CALL:", rq.nextUrl.pathname);
     clearAllCookies();
+
     return NextResponse.redirect(new URL(QuizAppRoutes.Login, rq.url));
   }
   return NextResponse.next();

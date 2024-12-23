@@ -2,6 +2,7 @@ import { getUserById } from "@/lib/usersApi";
 import { notFound } from "next/navigation";
 import React from "react";
 import BackButton from "../_components/BackButton";
+import ConfirmDelete from "../_components/ConfirmDelete";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -32,6 +33,8 @@ const DeleteUser = async ({ params }: Props) => {
 
         <h3 className="detail-text">{userInfo.nickName}</h3>
       </div>
+
+      <ConfirmDelete userId={id} />
     </div>
   );
 };

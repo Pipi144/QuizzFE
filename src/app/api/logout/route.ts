@@ -1,11 +1,10 @@
 import { API_TAG } from "@/utils/apiTags";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(rq: NextRequest) {
   try {
-    console.log("LOG OUT ROUTE API");
     const cookiesStore = await cookies();
     const allCookies = cookiesStore.getAll();
 

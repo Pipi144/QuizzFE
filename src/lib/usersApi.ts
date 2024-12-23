@@ -65,32 +65,6 @@ export const getUserRoles = async (): Promise<TUserRole[] | undefined> => {
   }
 };
 
-export const getCrtUserInfo = async (): Promise<TUserDetail | undefined> => {
-  try {
-    console.log("GET CURRENT USER INFO");
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken}`);
-    const resp = await fetch(`${baseAddress}/api/User/current-user-info`, {
-      method: "GET",
-      next: {
-        tags: [API_TAG.CurrentUserInfo],
-      },
-      headers: header,
-    });
-    const respJson = await resp.json();
-    if (!resp.ok) {
-      console.log("getCrtUserInfo:", respJson);
-      return;
-    }
-
-    return respJson;
-  } catch (error) {
-    console.log("ERROR :", error);
-  }
-};
-
 export const getUserById = async (
   id: string
 ): Promise<TUserDetail | undefined> => {

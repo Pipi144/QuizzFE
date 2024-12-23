@@ -1,4 +1,6 @@
 "use client";
+import QuizAppRoutes from "@/RoutePaths";
+import Link from "next/link";
 import React from "react";
 import { MdOutlineError } from "react-icons/md";
 
@@ -11,7 +13,14 @@ const Error = (props: Props) => {
         Failed to get users
       </span>
 
-      <MdOutlineError className="text-[150px] md:text-[200px] text-white" />
+      <MdOutlineError className="text-[100px] md:text-[150px] text-white" />
+
+      <Link
+        className="bg-white text-black px-4 py-1 rounded-sm min-w-12 mt-5"
+        href={QuizAppRoutes.Users}
+      >
+        Ok
+      </Link>
     </div>
   );
 };

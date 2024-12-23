@@ -22,5 +22,6 @@ export const Unauthorized_Routes = [
 export const QuizAPIRoutes = {
   UserList: "/api/users",
   Logout: "/api/logout",
+  DeleteUser: "/api/user/delete",
 };
 export default QuizAppRoutes;
