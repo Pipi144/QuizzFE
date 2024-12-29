@@ -66,8 +66,8 @@ export const handleLogin = async (
       httpOnly: true, // Prevents access via JavaScript
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict", // Protects against CSRF
-      // maxAge: 0.95 * respJs.expiresIn,
-      maxAge: 5,
+      maxAge: 0.95 * respJs.expiresIn,
+
       path: "/",
     });
   } catch (error) {

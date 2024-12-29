@@ -4,6 +4,7 @@ export type TLoginState = {
   emailErrors?: string[];
   passwordErrors?: string[];
   serverErrors?: string[];
+  success?: boolean;
 };
 export type TRegisterState = TLoginState & {
   firstName?: string;

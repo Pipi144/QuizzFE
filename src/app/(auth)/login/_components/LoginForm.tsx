@@ -18,6 +18,7 @@ const LoginForm = (props: Props) => {
     FormData
   >(async (prev, formData) => {
     let result = await handleLogin(formData);
+
     return result;
   }, {});
 

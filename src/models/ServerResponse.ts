@@ -2,7 +2,7 @@ import { TBasicUser } from "./user";
 
 export type TGetUserListResponse = {
   start: number;
-  limit: number;
+  pageSize: number;
   users: TBasicUser[];
   total: number;
 };

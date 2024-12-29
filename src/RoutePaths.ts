@@ -20,8 +20,10 @@ export const Unauthorized_Routes = [
 ];
 
 export const QuizAPIRoutes = {
-  UserList: "/api/users",
+  UserList: process.env.URL + "/api/user",
   Logout: "/api/logout",
-  DeleteUser: "/api/user/delete",
+  DeleteUser: process.env.URL + "/api/user/delete",
+  Questions: process.env.URL + "/api/question",
+  CurrentUser: process.env.URL + "/api/user/current-info",
 };
 export default QuizAppRoutes;

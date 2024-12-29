@@ -5,8 +5,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(rq: NextRequest) {
   try {
-    console.log("GET CURRENT USER INFO");
+    const cookiesStore = rq.cookies;
+    const allCookies = cookiesStore.getAll();
+    console.log("Cookies in current-user API:", allCookies);
     const accessToken = await getValidCookieToken();
+    console.log("GERT CURRENT USER ROUTE API:", accessToken);
     if (!accessToken)
       return NextResponse.json(
         { message: "Missing access token" },

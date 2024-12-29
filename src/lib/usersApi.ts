@@ -2,7 +2,6 @@
 import { baseAddress } from "@/baseAddress";
 import { TGetUserListResponse } from "@/models/ServerResponse";
 import { TUserDetail, TUserRole } from "@/models/user";
-import { API_TAG } from "@/utils/apiTags";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 
 type TGetUserListParams = {

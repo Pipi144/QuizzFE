@@ -1,5 +1,4 @@
 import { COOKIES_KEYS } from "@/utils/cookies";
-import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { ZodIssue } from "zod";
 
@@ -23,7 +22,6 @@ export const clearAllCookies = async () => {
 export const getValidCookieToken = async (): Promise<string | undefined> => {
   try {
     const cookiesStore = await cookies();
-    // check access token in cookies if it is valid
 
     const accessToken = cookiesStore.get(COOKIES_KEYS.AccessToken);
 

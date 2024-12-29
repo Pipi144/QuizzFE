@@ -1,7 +1,7 @@
 import QuizAppRoutes from "@/RoutePaths";
 
 import Link from "next/link";
-import React from "react";
+import React, { Suspense } from "react";
 import AnimatedGradientText from "../ui/animated-gradient-text";
 import MenuItem from "./MenuItem";
 import AnimatedButton from "../animated-button";
@@ -11,11 +11,11 @@ import LogoutBtn from "./LogoutBtn";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { baseAddress } from "@/baseAddress";
 import { API_TAG } from "@/utils/apiTags";
+import { Spinner } from "../ui/spinner";
 
 type Props = {};
 const getCrtUserInfo = async () => {
   try {
-    console.log("GET CURRENT USER INFO");
     const accessToken = await getValidCookieToken();
     if (!accessToken) return;
     const header = new Headers();
@@ -65,14 +65,20 @@ const Navbar = async (props: Props) => {
         <>
           <MenuItem itemText="Questions" itemUrl={QuizAppRoutes.QuestionList} />
           <MenuItem itemText="Manage users" itemUrl={QuizAppRoutes.Users} />
+
           <AnimatedButton className="ml-auto">
-            <Image
-              width={25}
-              height={25}
-              src={userInfo.pictureUrl}
-              alt="App icon"
-              className="md:w-[30px] md:h-[30px] object-cover overflow-hidden rounded-full"
-            />
+            <Suspense
+              fallback={<Spinner size={"small"} className="text-blue-400" />}
+            >
+              <Image
+                width={25}
+                height={25}
+                src={userInfo.pictureUrl}
+                alt="App icon"
+                className="md:w-[30px] md:h-[30px] object-cover overflow-hidden rounded-full"
+                loading="lazy"
+              />
+            </Suspense>
           </AnimatedButton>
           <LogoutBtn />
         </>

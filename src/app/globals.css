@@ -20,31 +20,27 @@ body {
   }
 }
 .user-list-table {
-  @apply rounded-md w-full p-3 text-white font-concert;
+  @apply rounded-md w-full p-3 text-white font-concert flex-shrink-[1];
 }
 
 .user-list-table td {
   @apply p-3;
 }
 .user-list-header {
-  @apply w-full border-slate-500 border-b-[1px] border-solid;
+  @apply border-slate-500 border-b-[1px] border-solid;
 }
 .user-list-header th {
-  @apply font-[400] text-base  text-start py-3 px-6;
+  @apply font-[400] text-base text-start py-3 px-6 sticky top-0;
 }
 
 .user-list-item {
-  @apply w-full  border-b-[1px] border-slate-500 border-solid;
+  @apply border-b-[1px] border-slate-500 border-solid;
 }
 .user-list-item td {
   @apply py-3 px-6;
 }
 .user-list-item td:nth-child(3) {
   @apply flex flex-row items-center justify-end;
-}
-
-.user-list-footer td {
-  @apply flex flex-row items-center;
 }
 
 .double-field-wrapper {
@@ -76,4 +72,8 @@ body {
 }
 .detail-text {
   @apply text-white ml-auto font-concert;
+}
+
+.page-title-text {
+  @apply text-white text-3xl font-Gorditas mb-3;
 }

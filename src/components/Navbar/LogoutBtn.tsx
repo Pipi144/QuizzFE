@@ -2,7 +2,7 @@
 import React from "react";
 import AnimatedButton from "../animated-button";
 import { IoLogOutOutline } from "react-icons/io5";
-import { QuizAPIRoutes } from "@/RoutePaths";
+import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 
 type Props = {};
@@ -10,7 +10,6 @@ type Props = {};
 const LogoutBtn = (props: Props) => {
   const router = useRouter();
   const logOut = async () => {
-    console.log("CLICK LOG OUT");
     try {
       const res = await fetch(QuizAPIRoutes.Logout, {
         method: "POST",
@@ -20,7 +19,9 @@ const LogoutBtn = (props: Props) => {
       });
       const resp = await res.json();
 
-      router.refresh();
+      if (res.ok) {
+        router.refresh();
+      }
     } catch (error) {}
   };
   return (
