@@ -45,7 +45,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: Props) => {
           key={page}
           onClick={() => onPageChange(page)}
           className={`px-4 py-2 ${
-            page === currentPage && " text-blue-600 font-bold"
+            page === currentPage && " text-black font-bold bg-white rounded-md"
           }`}
         >
           {page + 1 /* Display as 1-based for users */}

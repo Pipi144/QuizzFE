@@ -53,7 +53,6 @@ const Questions = async ({ searchParams }: Props) => {
 
   const safePage = isNaN(currentPage) ? 0 : currentPage;
   const questionListResp = await getAllQuestions({ search, page: safePage });
-
   return (
     <div className="w-full h-full flex flex-col  max-w-[980px] p-[20px] pt-[80px] mx-auto text-white font-concert">
       <h1 className="page-title-text">Questions</h1>

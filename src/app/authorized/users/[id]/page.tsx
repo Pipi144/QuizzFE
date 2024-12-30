@@ -16,29 +16,10 @@ type EditUserProps = {
     id: string;
   }>;
 };
-const fetchUserById = async (id: string) => {
-  try {
-    const response = await fetch(`${QuizAPIRoutes.UserList}/${id}`, {
-      method: "GET",
-      cache: "no-cache", // Ensure fresh data is fetched
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch user by ID:", response.statusText);
-      return null;
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error fetching user by ID:", error);
-    return null;
-  }
-};
 
 const EditUser = async ({ params }: EditUserProps) => {
   const { id } = await params;
   const userInfo = await getUserById(id);
-  console.log("USER INFO:", userInfo);
   if (!userInfo) throw new Error("User not found");
   return (
     <div className="max-w-5xl flex h-full pt-[80px] flex-col font-concert text-white mx-auto w-full p-5 items-center">

@@ -1,7 +1,11 @@
+"use server";
 import { baseAddress } from "@/baseAddress";
 import { TGetUserListResponse } from "@/models/ServerResponse";
 import { TUserDetail, TUserRole } from "@/models/user";
+
+import { COOKIES_KEYS } from "@/utils/cookies";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
+import { cookies } from "next/headers";
 
 type TGetUserListParams = {
   page?: number;
@@ -85,5 +89,16 @@ export const getUserById = async (
   } catch (error) {
     console.log("ERROR:", error);
     throw new Error("User not found");
+  }
+};
+
+export const getCrtUserInfo = async () => {
+  try {
+    const cookieStore = await cookies();
+    const userInfo = cookieStore.get(COOKIES_KEYS.CurrentUser);
+
+    return userInfo ? (JSON.parse(userInfo.value) as TUserDetail) : undefined;
+  } catch (error) {
+    console.log("ERROR :", error);
   }
 };

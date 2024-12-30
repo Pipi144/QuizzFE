@@ -25,5 +25,6 @@ export const QuizAPIRoutes = {
   DeleteUser: "/api/user/delete",
   Questions: process.env.URL + "/api/question",
   CurrentUser: process.env.URL + "/api/user/current-info",
+  AddQuestion: "api/question",
 };
 export default QuizAppRoutes;

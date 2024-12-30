@@ -10,6 +10,7 @@ import QuizAppRoutes from "@/RoutePaths";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
 import { findErrors } from "@/utils/serverHelperFnc";
+import { getCrtUserInfo } from "@/lib/usersApi";
 
 const schema = z.object({
   email: z
@@ -70,11 +71,34 @@ export const handleLogin = async (
 
       path: "/",
     });
+    // get user information
+    const respUser = await fetch(`${baseAddress}/api/User/current-user-info`, {
+      method: "GET",
+      next: {
+        tags: [API_TAG.CurrentUserInfo],
+        revalidate: 3600,
+      },
+      headers: {
+        Authorization: `Bearer ${respJs.accessToken}`,
+      },
+    });
+    const respUserJson = await respUser.json();
+    if (!respUser.ok) {
+      returnedState.serverErrors = ["Failed to get user information"];
+      return returnedState;
+    }
+
+    cookiesStore.set(COOKIES_KEYS.CurrentUser, JSON.stringify(respUserJson), {
+      httpOnly: true, // Prevents access via JavaScript
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // Protects against CSRF
+      path: "/",
+    });
   } catch (error) {
     console.log("ERROR:", error);
     returnedState.serverErrors = ["Unknown error"];
     return returnedState;
   }
-  revalidateTag(API_TAG.CurrentUserInfo);
+
   redirect(QuizAppRoutes.QuestionList); // redirect to question list when successfully login
 };

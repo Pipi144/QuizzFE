@@ -8,36 +8,12 @@ import AnimatedButton from "../animated-button";
 import Image from "next/image";
 import iconImg from "../../app/favicon.ico";
 import LogoutBtn from "./LogoutBtn";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { baseAddress } from "@/baseAddress";
-import { API_TAG } from "@/utils/apiTags";
+
 import { Spinner } from "../ui/spinner";
+import { getCrtUserInfo } from "@/lib/usersApi";
 
 type Props = {};
-const getCrtUserInfo = async () => {
-  try {
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken}`);
-    const resp = await fetch(`${baseAddress}/api/User/current-user-info`, {
-      method: "GET",
-      next: {
-        tags: [API_TAG.CurrentUserInfo],
-      },
-      headers: header,
-    });
-    const respJson = await resp.json();
-    if (!resp.ok) {
-      console.log("getCrtUserInfo:", respJson);
-      return;
-    }
 
-    return respJson;
-  } catch (error) {
-    console.log("ERROR :", error);
-  }
-};
 const Navbar = async (props: Props) => {
   const userInfo = await getCrtUserInfo();
 
