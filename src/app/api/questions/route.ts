@@ -3,7 +3,7 @@ import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { NextRequest, NextResponse } from "next/server";
 
 // GET request handler for `/api/user/[id]`
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
   try {
     const accessToken = getValidCookieToken();
     if (!accessToken) {

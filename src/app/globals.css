@@ -19,27 +19,27 @@ body {
     --radius: 0.5rem;
   }
 }
-.user-list-table {
+.list-table {
   @apply rounded-md w-full p-3 text-white font-concert flex-shrink-[1];
 }
 
-.user-list-table td {
+.list-table td {
   @apply p-3;
 }
-.user-list-header {
+.list-table-header {
   @apply border-slate-500 border-b-[1px] border-solid;
 }
-.user-list-header th {
+.list-table-header th {
   @apply font-[400] text-base text-start py-3 px-6 sticky top-0;
 }
 
-.user-list-item {
+.tb-row-item {
   @apply border-b-[1px] border-slate-500 border-solid;
 }
-.user-list-item td {
+.tb-row-item td {
   @apply py-3 px-6;
 }
-.user-list-item td:nth-child(3) {
+.tb-row-item td:nth-child(3) {
   @apply flex flex-row items-center justify-end;
 }
 

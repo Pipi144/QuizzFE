@@ -1,9 +1,8 @@
-import { TUser } from "./user";
-
-export type TQuestion = {
+export type TBasicQuestion = {
   id: string;
   questionText: string;
-  createdByUser: TUser;
+};
+export type TQuestion = TBasicQuestion & {
   questionOptions: TQuestionOptions[];
 };
 

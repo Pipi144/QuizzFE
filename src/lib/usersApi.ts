@@ -1,4 +1,3 @@
-"use server";
 import { baseAddress } from "@/baseAddress";
 import { TGetUserListResponse } from "@/models/ServerResponse";
 import { TUserDetail, TUserRole } from "@/models/user";

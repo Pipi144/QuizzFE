@@ -7,7 +7,7 @@ type Props = {};
 const Error = (props: Props) => {
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
-      <span className="text-[30px] md:text-[50px] text-white font-concert mb-[20px]">
+      <span className="text-[25px] md:text-[35px] text-white font-concert mb-[20px]">
         Something wrong!
       </span>
 

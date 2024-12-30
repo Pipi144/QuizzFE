@@ -2,9 +2,7 @@ import React from "react";
 import UserRow from "./_components/UserRow";
 import UserTableFooter from "./_components/UserTableFooter";
 import { Metadata } from "next";
-import { TGetUserListResponse } from "@/models/ServerResponse";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { baseAddress } from "@/baseAddress";
+import { getUserList } from "@/lib/usersApi";
 
 type Props = {
   searchParams: Promise<{
@@ -17,42 +15,6 @@ export const metadata: Metadata = {
   title: "Users",
   description: "All users information",
 };
-type TGetUserListParams = {
-  page?: number;
-  limitPerPage?: number;
-  search?: string;
-};
-export async function getUserList({
-  page = 0,
-  limitPerPage = 10,
-  search,
-}: TGetUserListParams): Promise<TGetUserListResponse | undefined> {
-  try {
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken}`);
-    const searchParams = new URLSearchParams();
-    searchParams.set("Page", `${page}`);
-    searchParams.set("PageSize", `${limitPerPage}`);
-    if (search) searchParams.set("Search", `${search}`);
-    const url = new URL(`${baseAddress}/api/User?` + searchParams.toString());
-
-    const resp = await fetch(url, {
-      method: "GET",
-
-      headers: header,
-    });
-    if (!resp.ok) {
-      console.log("ERROR USER LIST:", resp);
-      return;
-    }
-
-    return resp.json();
-  } catch (error) {
-    console.log("ERROR ERROR USER LIST:", error);
-  }
-}
 
 const UserList = async ({ searchParams }: Props) => {
   const { page } = await searchParams;
@@ -69,9 +31,9 @@ const UserList = async ({ searchParams }: Props) => {
           No User
         </h3>
       ) : (
-        <table className="user-list-table">
+        <table className="list-table">
           <thead>
-            <tr className="user-list-header">
+            <tr className="list-table-header">
               <th>Email</th>
               <th colSpan={1} />
               <th colSpan={1}>Last updated</th>
