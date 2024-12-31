@@ -1,9 +1,9 @@
 import React from "react";
 import EditForm from "./_components/EditForm";
-import UserRoleSelect from "./_components/UserRoleSelect";
 import BackButton from "./_components/BackButton";
-import { QuizAPIRoutes } from "@/RoutePaths";
-import { getUserById } from "@/lib/usersApi";
+import { baseAddress } from "@/baseAddress";
+import { getValidCookieToken } from "@/utils/serverHelperFnc";
+import { API_TAG } from "@/utils/apiTags";
 
 export type TUpdateUserState = {
   nickName?: string;
@@ -16,11 +16,18 @@ type EditUserProps = {
     id: string;
   }>;
 };
-const fetchUserById = async (id: string) => {
+const fetchQuestionById = async (id: string) => {
   try {
-    const response = await fetch(`${QuizAPIRoutes.UserList}/${id}`, {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) return;
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    const response = await fetch(`${baseAddress}/api/question/${id}`, {
       method: "GET",
-      cache: "no-cache", // Ensure fresh data is fetched
+      headers: header,
+      next: {
+        tags: [API_TAG.QuestionList + `-${id}`],
+      },
     });
 
     if (!response.ok) {
@@ -35,20 +42,18 @@ const fetchUserById = async (id: string) => {
   }
 };
 
-const EditUser = async ({ params }: EditUserProps) => {
+const EditQuestion = async ({ params }: EditUserProps) => {
   const { id } = await params;
-  const userInfo = await getUserById(id);
-  console.log("USER INFO:", userInfo);
-  if (!userInfo) throw new Error("User not found");
+  const questionInfo = await fetchQuestionById(id);
+
+  if (!questionInfo) throw new Error("Question not found");
   return (
-    <div className="max-w-5xl flex h-full pt-[80px] flex-col font-concert text-white mx-auto w-full p-5 items-center">
+    <div className="max-w-2xl flex h-full pt-[80px] flex-col font-concert text-white mx-auto w-full p-5 items-center">
       <BackButton />
-      <h1 className="text-3xl">Edit User</h1>
-      <EditForm userInfo={userInfo}>
-        <UserRoleSelect user={userInfo} />
-      </EditForm>
+      <h1 className="text-3xl">Edit Question</h1>
+      <EditForm question={questionInfo} />
     </div>
   );
 };
 
-export default EditUser;
+export default EditQuestion;

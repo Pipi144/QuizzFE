@@ -17,7 +17,7 @@ const BackButton = ({ children }: Props) => {
       {children ?? (
         <>
           <FaAngleLeft color="white" size={50} />
-          Users
+          Questions
         </>
       )}
     </Button>

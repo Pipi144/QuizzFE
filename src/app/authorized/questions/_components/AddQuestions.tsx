@@ -16,8 +16,6 @@ import { produce } from "immer";
 import { TNewQuestionOption } from "@/models/question";
 import QuestionOption from "./QuestionOption";
 import { useToast } from "@/hooks/use-toast";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { baseAddress } from "@/baseAddress";
 import { addQuestion } from "../action";
 import { Spinner } from "@/components/ui/spinner";
 type Props = {};
@@ -107,7 +105,7 @@ const AddQuestions = (props: Props) => {
           <div className="double-field-wrapper !p-0">
             <Label
               htmlFor="question"
-              className="label-text !text-black !text-sm"
+              className="label-text !text-black !text-sm font-semibold"
             >
               Question
             </Label>
@@ -123,7 +121,7 @@ const AddQuestions = (props: Props) => {
 
           <div className="w-full h-[1px] my-6 bg-slate-300" />
           <div className="flex flex-col w-full">
-            <Label className="label-text !text-black !text-sm mb-2">
+            <Label className="label-text !text-black !text-sm mb-2 font-semibold">
               Options
             </Label>
             {allOptions.map((option, index) => (

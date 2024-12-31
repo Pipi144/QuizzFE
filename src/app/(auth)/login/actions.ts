@@ -63,14 +63,7 @@ export const handleLogin = async (
       return returnedState;
     }
     const cookiesStore = await cookies();
-    cookiesStore.set(COOKIES_KEYS.AccessToken, respJs.accessToken, {
-      httpOnly: true, // Prevents access via JavaScript
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict", // Protects against CSRF
-      maxAge: 0.95 * respJs.expiresIn,
 
-      path: "/",
-    });
     // get user information
     const respUser = await fetch(`${baseAddress}/api/User/current-user-info`, {
       method: "GET",
@@ -92,6 +85,15 @@ export const handleLogin = async (
       httpOnly: true, // Prevents access via JavaScript
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict", // Protects against CSRF
+      path: "/",
+      maxAge: 0.95 * respJs.expiresIn,
+    });
+    cookiesStore.set(COOKIES_KEYS.AccessToken, respJs.accessToken, {
+      httpOnly: true, // Prevents access via JavaScript
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict", // Protects against CSRF
+      maxAge: 0.95 * respJs.expiresIn,
+
       path: "/",
     });
   } catch (error) {

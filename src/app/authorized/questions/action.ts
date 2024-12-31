@@ -3,9 +3,11 @@
 import { baseAddress } from "@/baseAddress";
 import { getCrtUserInfo } from "@/lib/usersApi";
 import { TNewQuestionOption } from "@/models/question";
+import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { API_TAG } from "@/utils/apiTags";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { revalidateTag } from "next/cache";
+import { redirect } from "next/navigation";
 
 type TResponseAddQuestion = {
   errorMessage: string;
@@ -62,9 +64,56 @@ export const addQuestion = async (
         errorTitle: "Failed Request",
       };
     }
+  } catch (error) {
+    return {
+      errorMessage: "Failed to add question",
+      errorTitle: "Unexpected Error",
+    };
+  }
 
-    // reset field
-    console.log("RESPONSE ADD QUESTION:", respJson);
+  revalidateTag(API_TAG.QuestionList);
+};
+
+export const editQuestion = async (
+  questionId: string,
+  questionText: string,
+  allOptions: TNewQuestionOption[]
+): Promise<TResponseAddQuestion | undefined> => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) {
+      return {
+        errorMessage: "Your session might expire, please login again",
+        errorTitle: "Session expired",
+      };
+    }
+    const userInfo = await getCrtUserInfo();
+    if (!userInfo) {
+      return {
+        errorMessage: "Failed to get user information",
+        errorTitle: "User session expired",
+      };
+    }
+    const res = await fetch(`${baseAddress}/api/question/${questionId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        id: questionId,
+        questionText,
+        questionOptions: allOptions,
+        createdByUserId: userInfo.userId,
+      }),
+    });
+    const respJson = await res.json();
+    if (!res.ok) {
+      return {
+        errorMessage: respJson.details,
+        errorTitle: "Failed Request",
+      };
+    }
   } catch (error) {
     console.log("ERROR ADD QUESTION:", error);
     return {
@@ -74,4 +123,5 @@ export const addQuestion = async (
   }
 
   revalidateTag(API_TAG.QuestionList);
+  revalidateTag(API_TAG.QuestionList + `-${questionId}`);
 };
