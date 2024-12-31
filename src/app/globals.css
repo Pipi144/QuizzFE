@@ -39,7 +39,7 @@ body {
 .tb-row-item td {
   @apply py-3 px-6;
 }
-.tb-row-item td:nth-child(3) {
+.tb-row-item .cell-item-end {
   @apply flex flex-row items-center justify-end;
 }
 

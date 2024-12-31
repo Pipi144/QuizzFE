@@ -1,16 +1,14 @@
 export const AUTHORIZED_PREFIX = "/authorized";
-export const USERS_BASE_ROUTE = AUTHORIZED_PREFIX + "/users";
 const QuizAppRoutes = {
   Home: "/",
   Login: "/login",
   Register: "/register",
 
   // authorized paths
-  CreateQuestion: AUTHORIZED_PREFIX + "/create-question",
   QuestionList: AUTHORIZED_PREFIX + "/questions",
-
-  //User routes
-  Users: USERS_BASE_ROUTE,
+  Users: AUTHORIZED_PREFIX + "/users",
+  Quiz: AUTHORIZED_PREFIX + "/quiz",
+  AddQuiz: AUTHORIZED_PREFIX + "/quiz/create",
 };
 
 export const Unauthorized_Routes = [

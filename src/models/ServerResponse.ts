@@ -8,9 +8,9 @@ export type TGetUserListResponse = {
   total: number;
 };
 
-export type TGetQuestionListResponse = {
+export type TPaginatedResponse<T> = {
   page: number;
   pageSize: number;
   totalCount: number;
-  items: TBasicQuestion[];
+  items: T[];
 };

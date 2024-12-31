@@ -14,12 +14,8 @@ const BackButton = ({ children }: Props) => {
       }}
       className="back-btn"
     >
-      {children ?? (
-        <>
-          <FaAngleLeft color="white" size={50} />
-          Questions
-        </>
-      )}
+      <FaAngleLeft color="white" size={50} />
+      {children ?? <>Questions</>}
     </Button>
   );
 };

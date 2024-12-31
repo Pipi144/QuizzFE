@@ -6,7 +6,6 @@ import { updateUser } from "../../actions";
 import EditUserField from "./EditUserField";
 import AnimatedDiv from "@/components/AnimatedComponents/AnimatedDiv";
 import { Button } from "@/components/ui/button";
-import BackButton from "./BackButton";
 
 type Props = PropsWithChildren & {
   userInfo: TUserDetail;

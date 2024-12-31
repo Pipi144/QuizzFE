@@ -20,7 +20,7 @@ const QuestionRow = ({ question }: Props) => {
     <tr className="tb-row-item">
       <td colSpan={2}>{question.questionText} </td>
       <td colSpan={1} />
-      <td colSpan={1}>
+      <td colSpan={1} className="cell-item-end">
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger className="mx-2">

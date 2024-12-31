@@ -40,6 +40,7 @@ const Navbar = async (props: Props) => {
       {userInfo ? (
         <>
           <MenuItem itemText="Questions" itemUrl={QuizAppRoutes.QuestionList} />
+          <MenuItem itemText="Quizzes" itemUrl={QuizAppRoutes.Quiz} />
           <MenuItem itemText="Manage users" itemUrl={QuizAppRoutes.Users} />
 
           <AnimatedButton className="ml-auto">

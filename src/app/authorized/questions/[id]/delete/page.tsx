@@ -1,5 +1,5 @@
 import React from "react";
-import BackButton from "../_components/BackButton";
+import BackButton from "../../../../../components/BackButton";
 import ConfirmDelete from "../_components/ConfirmDelete";
 import { fetchQuestionById } from "../../questionApi";
 

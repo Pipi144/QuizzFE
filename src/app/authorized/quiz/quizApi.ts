@@ -1,10 +1,11 @@
 import { baseAddress } from "@/baseAddress";
-import { TBasicQuestion, TQuestion } from "@/models/question";
+import { TQuestion } from "@/models/question";
+import { TBasicQuiz, TQuiz } from "@/models/quiz";
 import { TPaginatedResponse } from "@/models/ServerResponse";
 import { API_TAG } from "@/utils/apiTags";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 
-export const getAllQuestions = async ({
+export const getAllQuizzes = async ({
   page = 1,
   limitPerPage = 10,
   search,
@@ -12,7 +13,7 @@ export const getAllQuestions = async ({
   page?: number;
   limitPerPage?: number;
   search?: string;
-}): Promise<TPaginatedResponse<TBasicQuestion> | undefined> => {
+}): Promise<TPaginatedResponse<TBasicQuiz> | undefined> => {
   const accessToken = await getValidCookieToken();
   if (!accessToken) return;
   const header = new Headers();
@@ -21,33 +22,31 @@ export const getAllQuestions = async ({
   searchParams.set("Page", `${page + 1}`);
   searchParams.set("PageSize", `${limitPerPage}`);
   if (search) searchParams.set("questionText", `${search}`);
-  const url = new URL(`${baseAddress}/api/question?` + searchParams.toString());
+  const url = new URL(`${baseAddress}/api/quiz?` + searchParams.toString());
   const response = await fetch(url, {
     headers: header,
     method: "GET",
     next: {
-      tags: [API_TAG.QuestionList],
+      tags: [API_TAG.QuizList],
     },
   });
   if (!response.ok) {
-    throw new Error("Failed to fetch questions");
+    throw new Error("Failed to fetch quizzes");
   }
   return response.json();
 };
 
-export const fetchQuestionById = async (
-  id: string
-): Promise<TQuestion | undefined> => {
+export const fetchQuizById = async (id: string): Promise<TQuiz | undefined> => {
   try {
     const accessToken = await getValidCookieToken();
     if (!accessToken) return;
     const header = new Headers();
     header.set("Authorization", `Bearer ${accessToken}`);
-    const response = await fetch(`${baseAddress}/api/question/${id}`, {
+    const response = await fetch(`${baseAddress}/api/quiz/${id}`, {
       method: "GET",
       headers: header,
       next: {
-        tags: [API_TAG.QuestionList + `-${id}`],
+        tags: [API_TAG.QuizList + `-${id}`],
       },
     });
 
