@@ -10,7 +10,7 @@ import QuizAppRoutes from "@/RoutePaths";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
 import { findErrors } from "@/utils/serverHelperFnc";
-import { getCrtUserInfo } from "@/lib/usersApi";
+import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
 
 const schema = z.object({
   email: z

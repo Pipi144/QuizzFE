@@ -1,13 +1,10 @@
 import { Metadata } from "next";
 import React from "react";
 import AddQuestions from "./_components/AddQuestions";
-import { baseAddress } from "@/baseAddress";
 import SearchQuestion from "./_components/SearchQuestion";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { TGetQuestionListResponse } from "@/models/ServerResponse";
 import QuestionRow from "./_components/QuestionRow";
 import QuestionTableFooter from "./_components/QuestionTableFooter";
-import { API_TAG } from "@/utils/apiTags";
+import { getAllQuestions } from "./questionApi";
 
 type Props = {
   searchParams: Promise<{ search?: string; page?: string }>;
@@ -17,36 +14,6 @@ export const metadata: Metadata = {
   description: "All questions information",
 };
 
-const getAllQuestions = async ({
-  page = 1,
-  limitPerPage = 10,
-  search,
-}: {
-  page?: number;
-  limitPerPage?: number;
-  search?: string;
-}): Promise<TGetQuestionListResponse | undefined> => {
-  const accessToken = await getValidCookieToken();
-  if (!accessToken) return;
-  const header = new Headers();
-  header.set("Authorization", `Bearer ${accessToken}`);
-  const searchParams = new URLSearchParams();
-  searchParams.set("Page", `${page + 1}`);
-  searchParams.set("PageSize", `${limitPerPage}`);
-  if (search) searchParams.set("questionText", `${search}`);
-  const url = new URL(`${baseAddress}/api/question?` + searchParams.toString());
-  const response = await fetch(url, {
-    headers: header,
-    method: "GET",
-    next: {
-      tags: [API_TAG.QuestionList],
-    },
-  });
-  if (!response.ok) {
-    throw new Error("Failed to fetch questions");
-  }
-  return response.json();
-};
 const Questions = async ({ searchParams }: Props) => {
   const { search, page } = await searchParams;
   const currentPage = parseInt(page || "0", 10);

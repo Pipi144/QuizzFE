@@ -2,7 +2,7 @@ import React from "react";
 import UserRow from "./_components/UserRow";
 import UserTableFooter from "./_components/UserTableFooter";
 import { Metadata } from "next";
-import { getUserList } from "@/lib/usersApi";
+import { getUserList } from "@/app/authorized/users/usersApi";
 
 type Props = {
   searchParams: Promise<{

@@ -4,6 +4,7 @@ import BackButton from "./_components/BackButton";
 import { baseAddress } from "@/baseAddress";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { API_TAG } from "@/utils/apiTags";
+import { fetchQuestionById } from "../questionApi";
 
 export type TUpdateUserState = {
   nickName?: string;
@@ -15,31 +16,6 @@ type EditUserProps = {
   params: Promise<{
     id: string;
   }>;
-};
-const fetchQuestionById = async (id: string) => {
-  try {
-    const accessToken = await getValidCookieToken();
-    if (!accessToken) return;
-    const header = new Headers();
-    header.set("Authorization", `Bearer ${accessToken}`);
-    const response = await fetch(`${baseAddress}/api/question/${id}`, {
-      method: "GET",
-      headers: header,
-      next: {
-        tags: [API_TAG.QuestionList + `-${id}`],
-      },
-    });
-
-    if (!response.ok) {
-      console.error("Failed to fetch user by ID:", response.statusText);
-      return null;
-    }
-
-    return response.json();
-  } catch (error) {
-    console.error("Error fetching user by ID:", error);
-    return null;
-  }
 };
 
 const EditQuestion = async ({ params }: EditUserProps) => {

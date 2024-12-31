@@ -61,7 +61,12 @@ const EditForm = ({ question }: Props) => {
           description: res.errorMessage,
           variant: "destructive",
         });
-      } else replace(QuizAppRoutes.QuestionList);
+      } else {
+        toast({
+          title: "Question updated successfully",
+        });
+        replace(QuizAppRoutes.QuestionList);
+      }
     } catch (error) {
       toast({
         title: "Failed to add question",

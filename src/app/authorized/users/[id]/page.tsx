@@ -3,7 +3,7 @@ import EditForm from "./_components/EditForm";
 import UserRoleSelect from "./_components/UserRoleSelect";
 import BackButton from "./_components/BackButton";
 import { QuizAPIRoutes } from "@/RoutePaths";
-import { getUserById } from "@/lib/usersApi";
+import { getUserById } from "@/app/authorized/users/usersApi";
 
 export type TUpdateUserState = {
   nickName?: string;

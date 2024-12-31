@@ -1,8 +1,7 @@
-import { getUserById } from "@/lib/usersApi";
-import { notFound } from "next/navigation";
 import React from "react";
 import BackButton from "../_components/BackButton";
 import ConfirmDelete from "../_components/ConfirmDelete";
+import { fetchQuestionById } from "../../questionApi";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -10,31 +9,21 @@ type Props = {
 
 const DeleteUser = async ({ params }: Props) => {
   const { id } = await params;
-  const userInfo = await getUserById(id);
+  const questionInfo = await fetchQuestionById(id);
 
-  if (!userInfo) notFound();
+  if (!questionInfo) throw new Error("Question not found");
   return (
     <div className="max-w-lg flex h-full pt-[80px] flex-col font-concert text-white mx-auto w-full p-5 items-center">
       <BackButton />
-      <h1 className="text-3xl my-5">Delete User</h1>
+      <h1 className="text-3xl my-5">Delete Question</h1>
 
       <div className="double-field-wrapper">
-        <h3 className="label-text">Email</h3>
+        <h3 className="label-text">Question</h3>
 
-        <h3 className="detail-text">{userInfo.email}</h3>
-      </div>
-      <div className="double-field-wrapper">
-        <h3 className="label-text">Name</h3>
-
-        <h3 className="detail-text">{userInfo.name}</h3>
-      </div>
-      <div className="double-field-wrapper">
-        <h3 className="label-text">Nickname</h3>
-
-        <h3 className="detail-text">{userInfo.nickName}</h3>
+        <h3 className="detail-text">{questionInfo.questionText}</h3>
       </div>
 
-      <ConfirmDelete userId={id} />
+      <ConfirmDelete questionId={id} />
     </div>
   );
 };

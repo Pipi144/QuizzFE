@@ -10,7 +10,7 @@ import iconImg from "../../app/favicon.ico";
 import LogoutBtn from "./LogoutBtn";
 
 import { Spinner } from "../ui/spinner";
-import { getCrtUserInfo } from "@/lib/usersApi";
+import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
 
 type Props = {};
 

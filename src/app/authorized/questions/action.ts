@@ -1,22 +1,20 @@
 "use server";
 
 import { baseAddress } from "@/baseAddress";
-import { getCrtUserInfo } from "@/lib/usersApi";
+import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
 import { TNewQuestionOption } from "@/models/question";
-import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { API_TAG } from "@/utils/apiTags";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { revalidateTag } from "next/cache";
-import { redirect } from "next/navigation";
 
-type TResponseAddQuestion = {
+type TResponseQuestionAPI = {
   errorMessage: string;
   errorTitle: string;
 };
 export const addQuestion = async (
   questionText: string,
   allOptions: TNewQuestionOption[]
-): Promise<TResponseAddQuestion | undefined> => {
+): Promise<TResponseQuestionAPI | undefined> => {
   try {
     if (!questionText) {
       return {
@@ -78,7 +76,7 @@ export const editQuestion = async (
   questionId: string,
   questionText: string,
   allOptions: TNewQuestionOption[]
-): Promise<TResponseAddQuestion | undefined> => {
+): Promise<TResponseQuestionAPI | undefined> => {
   try {
     const accessToken = await getValidCookieToken();
     if (!accessToken) {
@@ -124,4 +122,21 @@ export const editQuestion = async (
 
   revalidateTag(API_TAG.QuestionList);
   revalidateTag(API_TAG.QuestionList + `-${questionId}`);
+};
+
+export const deleteQuestion = async (questionId: string) => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) return false;
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    const response = await fetch(`${baseAddress}/api/question/${questionId}`, {
+      method: "DELETE",
+      headers: header,
+    });
+    if (response.ok) revalidateTag(API_TAG.QuestionList);
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
 };

@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { TUserDetail } from "@/models/user";
-import { getUserRoles } from "@/lib/usersApi";
+import { getUserRoles } from "@/app/authorized/users/usersApi";
 
 type Props = {
   user: TUserDetail;

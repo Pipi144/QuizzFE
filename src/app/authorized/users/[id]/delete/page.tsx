@@ -1,4 +1,4 @@
-import { getUserById } from "@/lib/usersApi";
+import { getUserById } from "@/app/authorized/users/usersApi";
 import { notFound } from "next/navigation";
 import React from "react";
 import BackButton from "../_components/BackButton";

@@ -15,38 +15,35 @@ import { useToast } from "@/hooks/use-toast";
 import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { deleteQuestion } from "../../action";
+import { revalidateTag } from "next/cache";
+import { API_TAG } from "@/utils/apiTags";
 
 type Props = {
-  userId: string;
+  questionId: string;
 };
 
-const ConfirmDelete = ({ userId }: Props) => {
+const ConfirmDelete = ({ questionId }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const onDelete = async () => {
     try {
       setIsDeleting(true);
-      const res = await fetch(QuizAPIRoutes.DeleteUser, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId }),
-      });
+      const res = await deleteQuestion(questionId);
 
-      if (!res.ok) {
-        const respJson = await res.json();
+      if (!res) {
         toast({
-          title: "Failed to delete user!",
-          description: respJson.message ?? "Unknown error",
+          title: "Failed to delete question!",
           variant: "destructive",
         });
-      } else router.replace(QuizAppRoutes.Users);
+      } else {
+        router.replace(QuizAppRoutes.QuestionList);
+      }
     } catch (error) {
       console.log("ERROR FAILED ConfirmDelete:", error);
       toast({
-        title: "Failed to delete user!",
+        title: "Failed to delete question!",
         description: "onDelete failed",
         variant: "destructive",
       });
@@ -66,10 +63,12 @@ const ConfirmDelete = ({ userId }: Props) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Are you sure to delete user?</AlertDialogTitle>
+          <AlertDialogTitle>
+            Are you sure to delete this question?
+          </AlertDialogTitle>
           <AlertDialogDescription>
-            All data belong to this user will be deleted permanently, are you
-            sure to proceed?
+            All data belong to this question will be deleted permanently, are
+            you sure to proceed?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
