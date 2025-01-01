@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { Suspense } from "react";
 import AnimatedGradientText from "../ui/animated-gradient-text";
 import MenuItem from "./MenuItem";
-import AnimatedButton from "../animated-button";
+import AnimatedButton from "../AnimatedComponents/animated-button";
 import Image from "next/image";
 import iconImg from "../../app/favicon.ico";
 import LogoutBtn from "./LogoutBtn";

@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import AnimatedButton from "../animated-button";
+import AnimatedButton from "../AnimatedComponents/animated-button";
 import { IoLogOutOutline } from "react-icons/io5";
 import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { useRouter } from "next/navigation";
