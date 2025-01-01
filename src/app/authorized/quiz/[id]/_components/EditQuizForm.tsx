@@ -1,31 +1,35 @@
 "use client";
 import React, { useState } from "react";
-import QuizTextField from "../../_components/QuizTextField";
-import { TBasicQuestion } from "@/models/question";
-import SelectQuestions from "../../_components/SelectQuestions";
-import { Label } from "@/components/ui/label";
-import SelectedQuestion from "../../_components/SelectedQuestion";
-import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { Label } from "@/components/ui/label";
 import { Spinner } from "@/components/ui/spinner";
-import { addQuiz } from "../../actions";
 import { useRouter } from "next/navigation";
+import QuizTextField from "../../_components/QuizTextField";
+import { TQuiz } from "@/models/quiz";
+import { TBasicQuestion } from "@/models/question";
+import { editQuiz } from "../../actions";
+import SelectQuestions from "../../_components/SelectQuestions";
+import SelectedQuestion from "../../_components/SelectedQuestion";
 
-type Props = {};
+type Props = {
+  quiz: TQuiz;
+};
 
-const AddQuizForm = (props: Props) => {
-  const [quizName, setquizName] = useState("");
-  const [limitTime, setlimitTime] = useState("");
+const EditQuizForm = ({ quiz }: Props) => {
+  const [quizName, setquizName] = useState(quiz.quizName);
+  const [limitTime, setlimitTime] = useState(quiz.timeLimit?.toString() ?? "");
   const [selectedQuestions, setSelectedQuestions] = useState<
     Array<TBasicQuestion>
-  >([]);
+  >(quiz.questions);
   const [isAdding, setIsAdding] = useState(false);
   const { toast } = useToast();
   const { back } = useRouter();
-  const handleAddQuiz = async () => {
+  const handleEditQuiz = async () => {
     try {
       setIsAdding(true);
-      const res = await addQuiz({
+      const res = await editQuiz({
+        quizId: quiz.quizId,
         quizName,
         timeLimit: limitTime,
         questions: selectedQuestions,
@@ -97,15 +101,15 @@ const AddQuizForm = (props: Props) => {
         </div>
       </div>
       <Button
-        className="!float-right !self-end w-full bg-white text-black hover:bg-white hover:text-black hover:opacity-85 mt-6 flex flex-row items-center"
-        onClick={handleAddQuiz}
+        className="self-end w-full bg-white text-black hover:bg-white hover:text-black hover:opacity-85 mt-6 flex flex-row items-center"
+        onClick={handleEditQuiz}
         disabled={isAdding}
       >
-        {isAdding ? "Submitting..." : "Submit"}
+        {isAdding ? "Updating..." : "Update"}
         {isAdding && <Spinner size="small" className="text-white ml-2" />}
       </Button>
     </div>
   );
 };
 
-export default AddQuizForm;
+export default EditQuizForm;

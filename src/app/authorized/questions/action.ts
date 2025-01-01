@@ -85,13 +85,7 @@ export const editQuestion = async (
         errorTitle: "Session expired",
       };
     }
-    const userInfo = await getCrtUserInfo();
-    if (!userInfo) {
-      return {
-        errorMessage: "Failed to get user information",
-        errorTitle: "User session expired",
-      };
-    }
+
     const res = await fetch(`${baseAddress}/api/question/${questionId}`, {
       method: "PATCH",
       headers: {
@@ -102,7 +96,6 @@ export const editQuestion = async (
         id: questionId,
         questionText,
         questionOptions: allOptions,
-        createdByUserId: userInfo.userId,
       }),
     });
     const respJson = await res.json();

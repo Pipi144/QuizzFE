@@ -1,6 +1,6 @@
 import { TBasicQuestion } from "@/models/question";
 import { produce } from "immer";
-import React from "react";
+import React, { memo } from "react";
 import { IoClose } from "react-icons/io5";
 
 type Props = {
@@ -30,4 +30,4 @@ const SelectedQuestion = ({ setSelectedQuestions, question, index }: Props) => {
   );
 };
 
-export default SelectedQuestion;
+export default memo(SelectedQuestion);

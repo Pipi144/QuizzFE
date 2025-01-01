@@ -11,7 +11,7 @@ type Props = ComponentProps<"input"> & {
   labelText?: string;
 };
 
-const AddQuizTextField = ({
+const QuizTextField = ({
   fieldError,
   labelText,
   className,
@@ -47,4 +47,4 @@ const AddQuizTextField = ({
   );
 };
 
-export default AddQuizTextField;
+export default QuizTextField;

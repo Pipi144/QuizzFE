@@ -22,7 +22,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getQuestionsWithFilter } from "../actions";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import SelectedQuestion from "./SelectedQuestion";
 
 type Props = {
   selectedQuestions: TBasicQuestion[];

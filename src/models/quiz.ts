@@ -4,7 +4,7 @@ export type TBasicQuiz = {
   quizId: string;
   numberOfQuestions: number;
   quizName: string;
-  timeLimit: number;
+  timeLimit: number | null;
   createdAt: string;
 };
 

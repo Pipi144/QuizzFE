@@ -8,7 +8,7 @@ import { TBasicQuiz } from "@/models/quiz";
 import QuizAppRoutes from "@/RoutePaths";
 import dayjs from "dayjs";
 import Link from "next/link";
-import React from "react";
+import React, { memo } from "react";
 import { FaUserPen } from "react-icons/fa6";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
@@ -48,4 +48,4 @@ const QuizRow = ({ quiz }: Props) => {
   );
 };
 
-export default QuizRow;
+export default memo(QuizRow);

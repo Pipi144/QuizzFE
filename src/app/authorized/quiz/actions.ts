@@ -4,7 +4,7 @@ import { baseAddress } from "@/baseAddress";
 import { TBasicQuestion } from "@/models/question";
 import { TPaginatedResponse } from "@/models/ServerResponse";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { getCrtUserInfo } from "../../users/usersApi";
+import { getCrtUserInfo } from "../users/usersApi";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
 
@@ -110,4 +110,61 @@ export const addQuiz = async ({
   }
 
   revalidateTag(API_TAG.QuizList);
+};
+
+export const editQuiz = async ({
+  quizId,
+  quizName,
+  questions,
+  timeLimit,
+}: {
+  quizId: string;
+  quizName: string;
+  timeLimit: string;
+  questions: TBasicQuestion[];
+}): Promise<TResponseQuizAPI | undefined> => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) {
+      return {
+        errorMessage: "Your session might expire, please login again",
+        errorTitle: "Session expired",
+      };
+    }
+    if (questions.length < 1) {
+      return {
+        errorMessage: "At least 1 question is required",
+        errorTitle: "Missing information",
+      };
+    }
+    const res = await fetch(`${baseAddress}/api/quiz/${quizId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        quizName,
+        timeLimit: timeLimit || 0,
+        questionIds: questions.map((q) => q.id),
+      }),
+    });
+    const respJson = await res.json();
+    if (!res.ok) {
+      console.log("RESPONSE:", respJson);
+      return {
+        errorMessage: respJson.details,
+        errorTitle: "Failed Request",
+      };
+    }
+  } catch (error) {
+    console.log("ERROR ADD QUESTION:", error);
+    return {
+      errorMessage: "Failed to add question",
+      errorTitle: "Unexpected Error",
+    };
+  }
+
+  revalidateTag(API_TAG.QuizList);
+  revalidateTag(API_TAG.QuizList + `-${quizId}`);
 };

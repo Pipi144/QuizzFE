@@ -1,5 +1,4 @@
 import { baseAddress } from "@/baseAddress";
-import { TQuestion } from "@/models/question";
 import { TBasicQuiz, TQuiz } from "@/models/quiz";
 import { TPaginatedResponse } from "@/models/ServerResponse";
 import { API_TAG } from "@/utils/apiTags";
