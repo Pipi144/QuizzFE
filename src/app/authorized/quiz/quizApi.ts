@@ -50,13 +50,13 @@ export const fetchQuizById = async (id: string): Promise<TQuiz | undefined> => {
     });
 
     if (!response.ok) {
-      console.error("Failed to fetch user by ID:", response.statusText);
+      console.error("Failed to fetch quiz by ID:", response.statusText);
       return;
     }
 
     return response.json();
   } catch (error) {
-    console.error("Error fetching user by ID:", error);
+    console.error("Error fetching quiz by ID:", error);
     return;
   }
 };

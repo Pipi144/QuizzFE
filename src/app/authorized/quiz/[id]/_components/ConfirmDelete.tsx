@@ -15,35 +15,33 @@ import { useToast } from "@/hooks/use-toast";
 import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { deleteQuestion } from "../../action";
-import { revalidateTag } from "next/cache";
-import { API_TAG } from "@/utils/apiTags";
+import { deleteQuiz } from "../../actions";
 
 type Props = {
-  questionId: string;
+  quizId: string;
 };
 
-const ConfirmDelete = ({ questionId }: Props) => {
+const ConfirmDelete = ({ quizId }: Props) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const onDelete = async () => {
     try {
       setIsDeleting(true);
-      const res = await deleteQuestion(questionId);
+      const res = await deleteQuiz(quizId);
 
       if (!res) {
         toast({
-          title: "Failed to delete question!",
+          title: "Failed to delete quiz!",
           variant: "destructive",
         });
       } else {
-        router.replace(QuizAppRoutes.QuestionList);
+        router.replace(QuizAppRoutes.Quiz);
       }
     } catch (error) {
       console.log("ERROR FAILED ConfirmDelete:", error);
       toast({
-        title: "Failed to delete question!",
+        title: "Failed to delete quiz!",
         description: "onDelete failed",
         variant: "destructive",
       });
@@ -63,12 +61,10 @@ const ConfirmDelete = ({ questionId }: Props) => {
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Are you sure to delete this question?
-          </AlertDialogTitle>
+          <AlertDialogTitle>Are you sure to delete this quiz?</AlertDialogTitle>
           <AlertDialogDescription>
-            All data belong to this question will be deleted permanently, are
-            you sure to proceed?
+            All data belong to this quiz will be deleted permanently, are you
+            sure to proceed?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

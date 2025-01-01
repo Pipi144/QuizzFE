@@ -39,7 +39,7 @@ const QuizRow = ({ quiz }: Props) => {
         </TooltipProvider>
         <Link
           className="mx-2"
-          href={`${QuizAppRoutes.QuestionList}/${quiz.quizId}/delete`}
+          href={`${QuizAppRoutes.Quiz}/${quiz.quizId}/delete`}
         >
           <RiDeleteBin6Fill className="!text-red" size={20} color="red" />
         </Link>

@@ -7,6 +7,8 @@ import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { getCrtUserInfo } from "../users/usersApi";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
+import QuizAppRoutes from "@/RoutePaths";
+import { redirect } from "next/navigation";
 
 export const getQuestionsWithFilter = async ({
   page = 1,
@@ -167,4 +169,21 @@ export const editQuiz = async ({
 
   revalidateTag(API_TAG.QuizList);
   revalidateTag(API_TAG.QuizList + `-${quizId}`);
+};
+
+export const deleteQuiz = async (quizId: string) => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) return false;
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    const response = await fetch(`${baseAddress}/api/quiz/${quizId}`, {
+      method: "DELETE",
+      headers: header,
+    });
+    if (!response.ok) revalidateTag(API_TAG.QuizList);
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
 };
