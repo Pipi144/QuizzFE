@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { COOKIES_KEYS } from "./utils/cookies";
 import QuizAppRoutes, { AUTHORIZED_PREFIX } from "./RoutePaths";
+import { revalidatePath } from "next/cache";
 
 export function middleware(rq: NextRequest) {
   if (rq.nextUrl.pathname === QuizAppRoutes.Home) return;
@@ -23,6 +24,7 @@ export function middleware(rq: NextRequest) {
         secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       });
     });
+    revalidatePath(QuizAppRoutes.Home);
     return response;
   }
   return NextResponse.next();

@@ -11,7 +11,7 @@ import Link from "next/link";
 import React, { memo } from "react";
 import { FaUserPen } from "react-icons/fa6";
 import { RiDeleteBin6Fill } from "react-icons/ri";
-
+import { GiNotebook } from "react-icons/gi";
 type Props = {
   quiz: TBasicQuiz;
 };
@@ -25,6 +25,18 @@ const QuizRow = ({ quiz }: Props) => {
         {quiz.numberOfQuestions}
       </td>
       <td colSpan={1} className="cell-item-end">
+        <TooltipProvider>
+          <Tooltip delayDuration={0}>
+            <TooltipTrigger className="mx-2">
+              <Link href={`${QuizAppRoutes.Quiz}/${quiz.quizId}/take-quiz`}>
+                <GiNotebook className="text-white" size={20} />
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Take Quiz</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <TooltipProvider>
           <Tooltip delayDuration={0}>
             <TooltipTrigger className="mx-2">

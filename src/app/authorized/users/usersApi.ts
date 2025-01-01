@@ -96,7 +96,8 @@ export const getCrtUserInfo = async () => {
   try {
     const cookieStore = await cookies();
     const userInfo = cookieStore.get(COOKIES_KEYS.CurrentUser);
-
+    const accessToken = cookieStore.get(COOKIES_KEYS.AccessToken);
+    if (!userInfo || !accessToken) return;
     return userInfo ? (JSON.parse(userInfo.value) as TUserDetail) : undefined;
   } catch (error) {
     console.log("ERROR :", error);

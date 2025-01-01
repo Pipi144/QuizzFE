@@ -7,8 +7,6 @@ import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { getCrtUserInfo } from "../users/usersApi";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
-import QuizAppRoutes from "@/RoutePaths";
-import { redirect } from "next/navigation";
 
 export const getQuestionsWithFilter = async ({
   page = 1,

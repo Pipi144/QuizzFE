@@ -67,7 +67,7 @@ const AddQuizForm = (props: Props) => {
         />
 
         <QuizTextField
-          labelText="Duration (seconds)"
+          labelText="Duration (minutes)"
           id="quizDuration"
           placeholder="Time limit of quiz ..."
           name="quizDuration"

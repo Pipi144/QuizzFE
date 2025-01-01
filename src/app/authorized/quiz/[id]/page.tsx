@@ -15,11 +15,11 @@ type EditUserProps = {
   }>;
 };
 
-const EditQuestion = async ({ params }: EditUserProps) => {
+const EditQuiz = async ({ params }: EditUserProps) => {
   const { id } = await params;
   const quizInfo = await fetchQuizById(id);
 
-  if (!quizInfo) throw new Error("Question not found");
+  if (!quizInfo) throw new Error("Quiz not found");
   return (
     <div className="max-w-2xl flex h-full pt-[80px] flex-col font-concert text-white mx-auto w-full p-5 items-center">
       <BackButton>Quizzes</BackButton>
@@ -29,4 +29,4 @@ const EditQuestion = async ({ params }: EditUserProps) => {
   );
 };
 
-export default EditQuestion;
+export default EditQuiz;
