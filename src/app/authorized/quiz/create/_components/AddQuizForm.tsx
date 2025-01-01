@@ -3,43 +3,108 @@ import React, { useState } from "react";
 import AddQuizTextField from "./AddQuizTextField";
 import { TBasicQuestion } from "@/models/question";
 import SelectQuestions from "./SelectQuestions";
+import { Label } from "@/components/ui/label";
+import SelectedQuestion from "./SelectedQuestion";
+import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
+import { addQuiz } from "../actions";
+import { useRouter } from "next/navigation";
 
 type Props = {};
 
 const AddQuizForm = (props: Props) => {
+  const [quizName, setquizName] = useState("");
+  const [limitTime, setlimitTime] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState<
     Array<TBasicQuestion>
   >([]);
-
+  const [isAdding, setIsAdding] = useState(false);
+  const { toast } = useToast();
+  const { back } = useRouter();
+  const handleAddQuiz = async () => {
+    try {
+      setIsAdding(true);
+      const res = await addQuiz({
+        quizName,
+        timeLimit: limitTime,
+        questions: selectedQuestions,
+      });
+      console.log("res", res);
+      if (res) {
+        toast({
+          title: res.errorTitle,
+          description: res.errorMessage,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: "Question added successfully",
+        });
+        back();
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to add question",
+        description: "Unexpected error",
+        variant: "destructive",
+      });
+    } finally {
+      setIsAdding(false);
+    }
+  };
   return (
-    <form className="mt-4 w-full rounded-md overflow-auto custom-scrollbar flex flex-col flex-1">
+    <div className="mt-4 w-full rounded-md overflow-auto custom-scrollbar flex flex-col flex-1 !font-concert">
+      <div className="double-field-wrapper ">
+        <AddQuizTextField
+          labelText="Quiz name"
+          id="quizName"
+          placeholder="Enter quiz name..."
+          name="quizName"
+          value={quizName}
+          onChange={(e) => setquizName(e.target.value)}
+        />
+
+        <AddQuizTextField
+          labelText="Duration (seconds)"
+          id="quizDuration"
+          placeholder="Time limit of quiz ..."
+          name="quizDuration"
+          inputMode="numeric"
+          type="number"
+          value={limitTime}
+          onChange={(e) => setlimitTime(e.target.value)}
+        />
+      </div>
       <div className="double-field-wrapper !items-start">
-        <div className="flex flex-col w-[45%]">
-          <AddQuizTextField
-            labelText="Quiz name"
-            id="quizName"
-            placeholder="Enter quiz name..."
-            name="quizName"
-          />
+        <SelectQuestions
+          selectedQuestions={selectedQuestions}
+          setSelectedQuestions={setSelectedQuestions}
+        />
 
-          <AddQuizTextField
-            labelText="Duration (seconds)"
-            id="quizDuration"
-            placeholder="Time limit of quiz ..."
-            name="quizDuration"
-            inputMode="numeric"
-            type="number"
-          />
-        </div>
+        <div className="flex-col flex space-y-1.5 !font-concert w-full md:w-[45%]">
+          <Label>Selected questions</Label>
 
-        <div className="flex flex-col w-[45%]">
-          <SelectQuestions
-            selectedQuestions={selectedQuestions}
-            setSelectedQuestions={setSelectedQuestions}
-          />
+          {selectedQuestions.map((q, i) => (
+            <SelectedQuestion
+              key={q.id}
+              question={q}
+              setSelectedQuestions={setSelectedQuestions}
+              index={i}
+            />
+          ))}
         </div>
       </div>
-    </form>
+      <Button
+        className="self-end w-full bg-white text-black hover:bg-white hover:text-black hover:opacity-85 mt-6 flex flex-row items-center"
+        onClick={handleAddQuiz}
+        disabled={isAdding}
+      >
+        {isAdding ? "Submitting..." : "Submit"}
+        {isAdding && <Spinner size="small" className="text-white ml-2" />}
+      </Button>
+    </div>
   );
 };
 

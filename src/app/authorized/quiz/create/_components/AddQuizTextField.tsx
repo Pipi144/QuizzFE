@@ -29,7 +29,7 @@ const AddQuizTextField = ({
   };
   return (
     <AnimatedDiv
-      className={`flex flex-col space-y-1.5 w-full mb-5`}
+      className={`flex flex-col space-y-1.5 w-full md:w-[45%] mb-5`}
       layout="position"
     >
       <Label htmlFor={props.name}>{labelText ?? "label"}</Label>

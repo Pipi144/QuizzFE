@@ -44,7 +44,7 @@ body {
 }
 
 .double-field-wrapper {
-  @apply w-full flex flex-row flex-wrap justify-between items-center p-3;
+  @apply w-full flex flex-row !flex-wrap justify-between items-center p-3;
 }
 
 .input-disabled {

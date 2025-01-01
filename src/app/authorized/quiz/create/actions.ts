@@ -4,6 +4,9 @@ import { baseAddress } from "@/baseAddress";
 import { TBasicQuestion } from "@/models/question";
 import { TPaginatedResponse } from "@/models/ServerResponse";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
+import { getCrtUserInfo } from "../../users/usersApi";
+import { revalidateTag } from "next/cache";
+import { API_TAG } from "@/utils/apiTags";
 
 export const getQuestionsWithFilter = async ({
   page = 1,
@@ -34,4 +37,77 @@ export const getQuestionsWithFilter = async ({
     throw new Error("Failed to fetch questions");
   }
   return response.json();
+};
+
+type TResponseQuizAPI = {
+  errorMessage: string;
+  errorTitle: string;
+};
+export const addQuiz = async ({
+  quizName,
+  timeLimit,
+  questions,
+}: {
+  quizName: string;
+  timeLimit: string;
+  questions: TBasicQuestion[];
+}): Promise<TResponseQuizAPI | undefined> => {
+  try {
+    if (!quizName) {
+      return {
+        errorMessage: "Quiz name is required",
+        errorTitle: "Missing information",
+      };
+    }
+    if (questions.length < 1) {
+      return {
+        errorMessage: "At least 1 question is required",
+        errorTitle: "Missing information",
+      };
+    }
+
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) {
+      return {
+        errorMessage: "Your session might expire, please login again",
+        errorTitle: "Session expired",
+      };
+    }
+    const userInfo = await getCrtUserInfo();
+    if (!userInfo) {
+      return {
+        errorMessage: "Failed to get user information",
+        errorTitle: "User session expired",
+      };
+    }
+    const body: any = {
+      quizName,
+      createdByUserId: userInfo.userId,
+      questionIds: questions.map((q) => q.id),
+    };
+    if (timeLimit) body.timeLimit = timeLimit;
+    const res = await fetch(`${baseAddress}/api/quiz`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify(body),
+    });
+    const respJson = await res.json();
+    if (!res.ok) {
+      console.log("RESPONSE:", respJson);
+      return {
+        errorMessage: respJson.details,
+        errorTitle: "Failed Request",
+      };
+    }
+  } catch (error) {
+    return {
+      errorMessage: "Failed to add quiz",
+      errorTitle: "Unexpected Error",
+    };
+  }
+
+  revalidateTag(API_TAG.QuizList);
 };

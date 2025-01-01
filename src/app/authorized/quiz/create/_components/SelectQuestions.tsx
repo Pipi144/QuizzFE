@@ -22,6 +22,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { getQuestionsWithFilter } from "../actions";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
+import SelectedQuestion from "./SelectedQuestion";
 
 type Props = {
   selectedQuestions: TBasicQuestion[];
@@ -46,9 +47,6 @@ const SelectQuestions = ({
         page: 0,
       });
       if (questionListResp) {
-        console.log("SEARCH:", searchText);
-        console.log("questionListResp", questionListResp);
-
         setQuestionResponse(questionListResp);
       }
     } catch (error) {
@@ -87,6 +85,16 @@ const SelectQuestions = ({
     }
   };
 
+  const handleSelectQuestion = (question: TBasicQuestion) => {
+    setSelectedQuestions(
+      produce((draft) => {
+        if (draft.find((q) => q.id === question.id)) {
+          draft = draft.filter((q) => q.id !== question.id);
+        } else draft.push(question);
+        return draft;
+      })
+    );
+  };
   useEffect(() => {
     const timeout = setTimeout(() => {
       setQuestionResponse(undefined);
@@ -96,8 +104,8 @@ const SelectQuestions = ({
   }, [fetchQuestions]);
 
   return (
-    <div className="flex-col flex space-y-1.5">
-      <Label className="">Questions</Label>
+    <div className="flex-col flex space-y-1.5 w-full md:w-[45%] mb-5">
+      <Label>Questions</Label>
 
       <Popover open={openSelectQuestions} onOpenChange={setOpenSelectQuestions}>
         <PopoverTrigger asChild>
@@ -124,17 +132,21 @@ const SelectQuestions = ({
               {isFetching && <Spinner className="size-2 text-slate-400" />}
             </div>
 
-            <CommandList className="max-h-[300px] overflow-y-auto custom-scrollbar">
+            <CommandList className="max-h-[300px] overflow-y-auto custom-scrollbar w-full flex flex-col">
               <CommandEmpty>No question found.</CommandEmpty>
               <CommandGroup>
                 {questionResponse?.items.map((q) => (
                   <CommandItem
                     key={q.id}
                     value={q.id}
-                    onSelect={(currentValue) => {}}
-                    className="w-full cursor-pointer hover:font-medium text-sm font-normal truncate"
+                    onSelect={(currentValue) => {
+                      handleSelectQuestion(q);
+                    }}
+                    className="w-full cursor-pointer hover:font-medium text-sm font-normal flex items-center"
                   >
-                    {q.questionText}
+                    <span className="truncate flex-shrink-[1]">
+                      {q.questionText}
+                    </span>
                     <Check
                       className={cn(
                         "ml-auto",
