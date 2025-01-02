@@ -11,8 +11,15 @@ export type TNewQuestionOption = {
   optionText: string;
   isCorrectAnswer: boolean;
 };
-export type TQuestionOptions = TNewQuestionOption & {
-  id: string;
 
-  questionId: string;
+export type TBasicQuestionOption = {
+  id: string;
+  optionText: string;
 };
+export type TQuestionOptions = TBasicQuestionOption &
+  TNewQuestionOption & {
+    id: string;
+
+    questionId: string;
+    optionText: string;
+  };

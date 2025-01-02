@@ -1,5 +1,5 @@
 import { baseAddress } from "@/baseAddress";
-import { TBasicQuiz, TQuiz } from "@/models/quiz";
+import { TBasicQuiz, TQuiz, TQuizFullQuestions } from "@/models/quiz";
 import { TPaginatedResponse } from "@/models/ServerResponse";
 import { API_TAG } from "@/utils/apiTags";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
@@ -55,6 +55,34 @@ export const fetchQuizById = async (id: string): Promise<TQuiz | undefined> => {
     }
 
     return response.json();
+  } catch (error) {
+    console.error("Error fetching quiz by ID:", error);
+    return;
+  }
+};
+
+export const fetchQuizWithFullQuestionsById = async (
+  id: string
+): Promise<TQuizFullQuestions | undefined> => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken) return;
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    const response = await fetch(`${baseAddress}/api/quiz/full/${id}`, {
+      method: "GET",
+      headers: header,
+      next: {
+        tags: [API_TAG.QuizList + `-${id}`],
+      },
+    });
+    const resp = await response.json();
+    if (!response.ok) {
+      console.error("Failed to fetch quiz by ID:", resp);
+      return;
+    }
+
+    return resp;
   } catch (error) {
     console.error("Error fetching quiz by ID:", error);
     return;

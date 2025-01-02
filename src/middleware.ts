@@ -24,7 +24,6 @@ export function middleware(rq: NextRequest) {
         secure: process.env.NODE_ENV === "production", // Use secure cookies in production
       });
     });
-    revalidatePath(QuizAppRoutes.Home);
     return response;
   }
   return NextResponse.next();

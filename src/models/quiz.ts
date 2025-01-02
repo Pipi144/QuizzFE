@@ -1,4 +1,4 @@
-import { TBasicQuestion } from "./question";
+import { TBasicQuestion, TQuestion } from "./question";
 
 export type TBasicQuiz = {
   quizId: string;
@@ -10,4 +10,8 @@ export type TBasicQuiz = {
 
 export type TQuiz = TBasicQuiz & {
   questions: TBasicQuestion[];
+};
+
+export type TQuizFullQuestions = TBasicQuiz & {
+  questions: TQuestion[];
 };
