@@ -3,20 +3,24 @@ import QuizAppRoutes from "@/RoutePaths";
 import Link from "next/link";
 import React, { Suspense } from "react";
 import AnimatedGradientText from "../ui/animated-gradient-text";
-import MenuItem from "./MenuItem";
+
 import AnimatedButton from "../AnimatedComponents/animated-button";
 import Image from "next/image";
 import iconImg from "../../app/favicon.ico";
-import LogoutBtn from "./LogoutBtn";
 
 import { Spinner } from "../ui/spinner";
 import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
+import MenuItem from "./MenuItem";
+import LogoutBtn from "./LogoutBtn";
 
 type Props = {};
 
 const Navbar = async (props: Props) => {
   const userInfo = await getCrtUserInfo();
 
+  const isAdmin = Boolean(
+    userInfo?.userRoles.find((role) => role.roleName === "Admin")
+  );
   return (
     <div className="shadow-navMenuShadow w-full fixed top-0 max-w-[1280px] p-[20px] self-center flex flex-row items-center">
       <Link
@@ -41,7 +45,10 @@ const Navbar = async (props: Props) => {
         <>
           <MenuItem itemText="Questions" itemUrl={QuizAppRoutes.QuestionList} />
           <MenuItem itemText="Quizzes" itemUrl={QuizAppRoutes.Quiz} />
-          <MenuItem itemText="Manage users" itemUrl={QuizAppRoutes.Users} />
+
+          {isAdmin && (
+            <MenuItem itemText="Manage users" itemUrl={QuizAppRoutes.Users} />
+          )}
 
           <AnimatedButton className="ml-auto">
             <Suspense

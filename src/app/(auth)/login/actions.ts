@@ -93,7 +93,6 @@ export const handleLogin = async (
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict", // Protects against CSRF
       maxAge: 0.95 * respJs.expiresIn,
-
       path: "/",
     });
   } catch (error) {

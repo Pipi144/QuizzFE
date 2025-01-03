@@ -1,14 +1,15 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import AnimatedButton from "../AnimatedComponents/animated-button";
 import { IoLogOutOutline } from "react-icons/io5";
 import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 type Props = {};
 
 const LogoutBtn = (props: Props) => {
   const router = useRouter();
+  const pathName = usePathname();
   const logOut = async () => {
     try {
       const res = await fetch(QuizAPIRoutes.Logout, {
@@ -24,6 +25,13 @@ const LogoutBtn = (props: Props) => {
       }
     } catch (error) {}
   };
+
+  // need to refresh the page when user logs out/ session expired (redirect to login page)
+  // refresh the page to refresh navbar
+  useEffect(() => {
+    if (pathName === QuizAppRoutes.Login) router.refresh();
+  }, [pathName]);
+
   return (
     <AnimatedButton
       animatedVariants="fadeInRight"
