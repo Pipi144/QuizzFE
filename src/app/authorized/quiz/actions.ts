@@ -7,6 +7,7 @@ import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { getCrtUserInfo } from "../users/usersApi";
 import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
+import { TQuizAnswer, TQuizAttempt } from "@/models/quiz";
 
 export const getQuestionsWithFilter = async ({
   page = 1,
@@ -183,5 +184,56 @@ export const deleteQuiz = async (quizId: string) => {
     return response.ok;
   } catch (error) {
     return false;
+  }
+};
+
+type TQuizAttemptubmitPayload = {
+  quizId: string;
+  answers: TQuizAnswer[];
+};
+export const submitQuiz = async ({
+  quizId,
+  answers,
+}: TQuizAttemptubmitPayload): Promise<TResponseQuizAPI | TQuizAttempt> => {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken)
+      return {
+        errorMessage: "Your session might expire, please login again",
+        errorTitle: "Session expired",
+      };
+
+    const userInfo = await getCrtUserInfo();
+    if (!userInfo) {
+      return {
+        errorMessage: "Failed to get user information",
+        errorTitle: "User session expired",
+      };
+    }
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    header.set("Content-Type", "application/json");
+    const response = await fetch(`${baseAddress}/api/quiz-attempts`, {
+      method: "POST",
+      headers: header,
+      body: JSON.stringify({
+        quizId,
+        questionAttempts: answers,
+        attemptByUserId: userInfo.userId,
+      }),
+    });
+    const respJson = await response.json();
+    if (!response.ok) {
+      return {
+        errorMessage: respJson.details,
+        errorTitle: "Failed Request",
+      };
+    }
+    return respJson as TQuizAttempt;
+  } catch (error) {
+    return {
+      errorMessage: "Failed to submit quiz",
+      errorTitle: "Unexpected Error",
+    };
   }
 };

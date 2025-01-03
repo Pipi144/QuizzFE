@@ -1,5 +1,5 @@
 import { TBasicQuestionOption } from "@/models/question";
-import React from "react";
+import React, { memo } from "react";
 import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import { produce } from "immer";
 import { cn } from "@/lib/utils";
@@ -28,7 +28,7 @@ const QuestionOption = ({ questionId, option }: Props) => {
   const isSelected = answers.find(
     (a) => a.questionId === questionId && a.selectedOptionId === option.id
   );
-  console.log("isSelected", isSelected);
+
   return (
     <div
       onClick={selectOption}
@@ -42,4 +42,4 @@ const QuestionOption = ({ questionId, option }: Props) => {
   );
 };
 
-export default QuestionOption;
+export default memo(QuestionOption);

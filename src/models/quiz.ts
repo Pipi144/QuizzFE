@@ -15,3 +15,19 @@ export type TQuiz = TBasicQuiz & {
 export type TQuizFullQuestions = TBasicQuiz & {
   questions: TQuestion[];
 };
+
+export type TQuizAnswer = {
+  questionId: string;
+  selectedOptionId: string | null; // null represents unanswered
+};
+
+export type TQuizAttempt = {
+  id: number;
+  score: number;
+  createdAt: string;
+  attemptByUserId: string;
+  quizId: number;
+  quizName: string;
+  totalQuestions: number;
+  correctAnswers: number;
+};

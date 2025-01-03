@@ -11,13 +11,13 @@ export type TUpdateUserState = {
 };
 type EditUserProps = {
   params: Promise<{
-    id: string;
+    quizId: string;
   }>;
 };
 
 const EditQuiz = async ({ params }: EditUserProps) => {
-  const { id } = await params;
-  const quizInfo = await fetchQuizById(id);
+  const { quizId } = await params;
+  const quizInfo = await fetchQuizById(quizId);
 
   if (!quizInfo) throw new Error("Quiz not found");
   return (

@@ -16,10 +16,14 @@ type Props = DialogProps & {
   footerContent?: React.ReactNode;
 };
 
-const ConfirmDialog = ({ title, description, ...props }: Props) => {
+const ConfirmDialog = ({
+  title,
+  description,
+  footerContent,
+  ...props
+}: Props) => {
   return (
     <Dialog {...props}>
-      <DialogTrigger>Open</DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{title ?? "Title"}</DialogTitle>
@@ -27,7 +31,7 @@ const ConfirmDialog = ({ title, description, ...props }: Props) => {
             {description ?? "Dialog description"}
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter></DialogFooter>
+        <DialogFooter>{footerContent}</DialogFooter>
       </DialogContent>
     </Dialog>
   );

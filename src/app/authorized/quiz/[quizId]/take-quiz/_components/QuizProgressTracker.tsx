@@ -7,7 +7,7 @@ type Props = {};
 const QuizProgressTracker = (props: Props) => {
   const { quizInfo, currentQuestionIdx } = useTakeQuizContext();
   const completedPercentage =
-    (currentQuestionIdx + 1 / quizInfo.numberOfQuestions) * 100;
+    ((currentQuestionIdx + 1) / quizInfo.numberOfQuestions) * 100;
   return (
     <ProgressBar
       completed={completedPercentage}
@@ -15,8 +15,10 @@ const QuizProgressTracker = (props: Props) => {
       bgColor="black"
       customLabel={`${currentQuestionIdx + 1}/${quizInfo.numberOfQuestions}`}
       labelClassName="quiz-progress-bar-label"
-      height="14px"
+      height="18px"
       transitionDuration="0.5s"
+      labelAlignment="center"
+      className="border-[0.5px] border-solid border-white rounded-full"
     />
   );
 };

@@ -4,12 +4,12 @@ import ConfirmDelete from "../_components/ConfirmDelete";
 import { fetchQuizById } from "../../quizApi";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ quizId: string }>;
 };
 
 const DeleteUser = async ({ params }: Props) => {
-  const { id } = await params;
-  const quizInfo = await fetchQuizById(id);
+  const { quizId } = await params;
+  const quizInfo = await fetchQuizById(quizId);
 
   if (!quizInfo) throw new Error("Question not found");
   return (
@@ -28,7 +28,7 @@ const DeleteUser = async ({ params }: Props) => {
         <h3 className="detail-text">{quizInfo.numberOfQuestions}</h3>
       </div>
 
-      <ConfirmDelete quizId={id} />
+      <ConfirmDelete quizId={quizId} />
     </div>
   );
 };

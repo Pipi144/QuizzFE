@@ -1,5 +1,5 @@
 "use client";
-import { TQuizFullQuestions } from "@/models/quiz";
+import { TQuizAnswer, TQuizFullQuestions } from "@/models/quiz";
 
 import React, {
   createContext,
@@ -16,12 +16,9 @@ type TQuizSession = {
   timeCountdown: number | null; // saving the countdown time in seconds
   currentQuestionIdx: number;
   quizId: string;
-  answers: TAnswer[]; // saving the answers of the user
+  answers: TQuizAnswer[]; // saving the answers of the user
 };
-type TAnswer = {
-  questionId: string;
-  selectedOptionId: string | null; // null represents unanswered
-};
+
 interface ITakeQuizContext {
   currentQuestionIdx: number;
   setCurrentQuestionIdx: React.Dispatch<React.SetStateAction<number>>;
@@ -31,8 +28,11 @@ interface ITakeQuizContext {
   setTimeCountDown: React.Dispatch<React.SetStateAction<number | null>>;
   quizInfo: TQuizFullQuestions;
   switchQuestion: (action: "prev" | "next") => void;
-  setAnswers: React.Dispatch<React.SetStateAction<TAnswer[]>>;
-  answers: TAnswer[];
+  setAnswers: React.Dispatch<React.SetStateAction<TQuizAnswer[]>>;
+  answers: TQuizAnswer[];
+  deleteQuizSessionStorage: () => void;
+  isQuizEnded: boolean;
+  setIsQuizEnded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 type Props = PropsWithChildren & {
   quizInfo: TQuizFullQuestions;
@@ -41,16 +41,19 @@ type Props = PropsWithChildren & {
 const TakeQuizProvider = createContext<ITakeQuizContext | null>(null);
 const TakeQuizProviderWrapper = ({ quizInfo, children }: Props) => {
   const [isQuizStart, setIsQuizStart] = useState(false);
+  const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [timeCountDown, setTimeCountDown] = useState<number | null>(
     quizInfo.timeLimit ? quizInfo.timeLimit * 60 : null //convert to seconds
   );
   const [currentQuestionIdx, setCurrentQuestionIdx] = useState(0);
-  const [answers, setAnswers] = useState<TAnswer[]>(
+  const [answers, setAnswers] = useState<TQuizAnswer[]>(
     quizInfo.questions.map((q) => ({
       questionId: q.id,
       selectedOptionId: null, // Initialize with null
     }))
   );
+
+  //save to local storage user quiz session
   const saveQuizSession = (quizSessionPayload: TQuizSession) => {
     // Save the updated session to local storage
     localStorage.setItem(
@@ -59,6 +62,10 @@ const TakeQuizProviderWrapper = ({ quizInfo, children }: Props) => {
     );
   };
 
+  const deleteQuizSessionStorage = useCallback(() => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY_QUIZ);
+  }, []);
+  // retrieve the quiz session from local storage
   const initializeQuizSession = () => {
     const quizSessionStorage = localStorage.getItem(LOCAL_STORAGE_KEY_QUIZ);
     if (quizSessionStorage) {
@@ -102,6 +109,12 @@ const TakeQuizProviderWrapper = ({ quizInfo, children }: Props) => {
       saveQuizSession(quizSession);
     }
   }, [timeCountDown, currentQuestionIdx, answers, isQuizStart]);
+
+  // delete the quiz session when the quiz is ended
+  useEffect(() => {
+    if (isQuizEnded) deleteQuizSessionStorage();
+  }, [isQuizEnded]);
+
   const contextVal: ITakeQuizContext = useMemo(
     () => ({
       isQuizStart,
@@ -114,6 +127,9 @@ const TakeQuizProviderWrapper = ({ quizInfo, children }: Props) => {
       setAnswers,
       quizInfo,
       switchQuestion,
+      deleteQuizSessionStorage,
+      isQuizEnded,
+      setIsQuizEnded,
     }),
     [
       isQuizStart,
@@ -122,6 +138,7 @@ const TakeQuizProviderWrapper = ({ quizInfo, children }: Props) => {
       answers,
       quizInfo,
       switchQuestion,
+      isQuizEnded,
     ]
   );
   return (
