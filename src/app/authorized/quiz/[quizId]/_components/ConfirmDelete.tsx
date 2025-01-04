@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
-import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
+import QuizAppRoutes from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { deleteQuiz } from "../../actions";

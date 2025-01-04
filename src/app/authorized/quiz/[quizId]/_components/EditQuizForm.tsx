@@ -44,11 +44,12 @@ const EditQuizForm = ({ quiz }: Props) => {
       } else {
         toast({
           title: "Success",
-          description: "Question added successfully",
+          description: "Quiz updated successfully",
         });
         back();
       }
     } catch (error) {
+      console.log("ERROR FAILED EditQuizForm:", error);
       toast({
         title: "Failed to add question",
         description: "Unexpected error",

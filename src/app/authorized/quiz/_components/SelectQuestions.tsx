@@ -5,7 +5,6 @@ import {
   Command,
   CommandEmpty,
   CommandGroup,
-  CommandInput,
   CommandItem,
   CommandList,
 } from "@/components/ui/command";
@@ -138,7 +137,7 @@ const SelectQuestions = ({
                   <CommandItem
                     key={q.id}
                     value={q.id}
-                    onSelect={(currentValue) => {
+                    onSelect={() => {
                       handleSelectQuestion(q);
                     }}
                     className="w-full cursor-pointer hover:font-medium text-sm font-normal flex items-center"

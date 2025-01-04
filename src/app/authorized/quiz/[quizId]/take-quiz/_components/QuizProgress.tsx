@@ -5,9 +5,7 @@ import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import QuestionOption from "./QuestionOption";
 import { Button } from "@/components/ui/button";
 
-type Props = {};
-
-const QuizProgress = (props: Props) => {
+const QuizProgress = () => {
   const { quizInfo, currentQuestionIdx, switchQuestion } = useTakeQuizContext();
   const currentQuestion = quizInfo.questions[currentQuestionIdx];
   return (

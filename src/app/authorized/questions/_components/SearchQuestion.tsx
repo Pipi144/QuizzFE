@@ -5,9 +5,7 @@ import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import React from "react";
 import { useDebouncedCallback } from "use-debounce";
 
-type Props = {};
-
-const SearchQuestion = (props: Props) => {
+const SearchQuestion = () => {
   const { replace } = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();

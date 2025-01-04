@@ -41,6 +41,6 @@ export const findErrors = async (fieldName: string, errors: ZodIssue[]) => {
       })
       .map((item) => item.message);
   } catch (error) {
-    console.log("ERROR IN findErrors");
+    console.log("ERROR IN findErrors:", error);
   }
 };

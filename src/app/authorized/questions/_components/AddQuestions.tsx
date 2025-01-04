@@ -18,9 +18,8 @@ import QuestionOption from "./QuestionOption";
 import { useToast } from "@/hooks/use-toast";
 import { addQuestion } from "../action";
 import { Spinner } from "@/components/ui/spinner";
-type Props = {};
 
-const AddQuestions = (props: Props) => {
+const AddQuestions = () => {
   const [showAddQuestion, setshowAddQuestion] = useState(false);
   const [questionText, setquestionText] = useState("");
   const [allOptions, setAllOptions] = useState<Array<TNewQuestionOption>>([]);
@@ -71,6 +70,7 @@ const AddQuestions = (props: Props) => {
         });
       }
     } catch (error) {
+      console.log("ERROR FAILED AddQuestions:", error);
       toast({
         title: "Failed to add question",
         description: "Unexpected error",

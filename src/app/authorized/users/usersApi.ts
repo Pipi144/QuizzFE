@@ -1,8 +1,6 @@
-"use server";
 import { baseAddress } from "@/baseAddress";
 import { TGetUserListResponse } from "@/models/ServerResponse";
 import { TUserDetail, TUserRole } from "@/models/user";
-
 import { COOKIES_KEYS } from "@/utils/cookies";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { cookies } from "next/headers";
@@ -79,16 +77,17 @@ export const getUserById = async (
     const resp = await fetch(`${baseAddress}/api/User/${id}`, {
       method: "GET",
       headers: header,
+      cache: "no-cache",
     });
     if (!resp.ok) {
       console.log("error getUserById:", resp);
-      throw new Error("User not found");
+      return;
     }
 
     return resp.json();
   } catch (error) {
     console.log("ERROR:", error);
-    throw new Error("User not found");
+    return;
   }
 };
 

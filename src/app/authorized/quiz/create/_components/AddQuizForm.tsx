@@ -11,9 +11,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { addQuiz } from "../../actions";
 import { useRouter } from "next/navigation";
 
-type Props = {};
-
-const AddQuizForm = (props: Props) => {
+const AddQuizForm = () => {
   const [quizName, setquizName] = useState("");
   const [limitTime, setlimitTime] = useState("");
   const [selectedQuestions, setSelectedQuestions] = useState<
@@ -45,6 +43,7 @@ const AddQuizForm = (props: Props) => {
         back();
       }
     } catch (error) {
+      console.log("ERROR FAILED AddQuestions:", error);
       toast({
         title: "Failed to add question",
         description: "Unexpected error",

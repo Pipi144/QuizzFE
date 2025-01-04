@@ -5,9 +5,7 @@ import { IoLogOutOutline } from "react-icons/io5";
 import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
 import { usePathname, useRouter } from "next/navigation";
 
-type Props = {};
-
-const LogoutBtn = (props: Props) => {
+const LogoutBtn = () => {
   const router = useRouter();
   const pathName = usePathname();
   const logOut = async () => {
@@ -18,12 +16,14 @@ const LogoutBtn = (props: Props) => {
           "Content-Type": "application/json",
         },
       });
-      const resp = await res.json();
+      // const resp = await res.json();
 
       if (res.ok) {
         router.refresh();
       }
-    } catch (error) {}
+    } catch (error) {
+      console.error("Failed to logout", error);
+    }
   };
 
   // need to refresh the page when user logs out/ session expired (redirect to login page)

@@ -1,16 +1,16 @@
 import { API_TAG } from "@/utils/apiTags";
 import { revalidateTag } from "next/cache";
-import { cookies } from "next/headers";
+
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(rq: NextRequest) {
   try {
-    const cookiesStore = await cookies();
-    const allCookies = cookiesStore.getAll();
+    const allCookies = rq.cookies.getAll();
+    const response = NextResponse.json({ redirect: true });
 
     // Delete each cookie
     allCookies.forEach((cookie) => {
-      cookiesStore.set(cookie.name, cookie.value, {
+      response.cookies.set(cookie.name, cookie.value, {
         httpOnly: true, // Prevents access via JavaScript
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict", // Protects against CSRF
@@ -19,8 +19,11 @@ export async function POST(rq: NextRequest) {
       });
     });
     revalidateTag(API_TAG.CurrentUserInfo);
-    return NextResponse.json({ redirect: true });
+    return response;
   } catch (error) {
-    return NextResponse.json({ message: "Failed to log out" }, { status: 400 });
+    return NextResponse.json(
+      { message: error ?? "Failed to log out" },
+      { status: 400 }
+    );
   }
 }

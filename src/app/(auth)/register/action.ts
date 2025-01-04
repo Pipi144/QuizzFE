@@ -36,7 +36,7 @@ export const handleRegister = async (
     lastName,
     nickName,
   });
-  let returnedState: TLoginState = {
+  const returnedState: TLoginState = {
     email: email.toString(),
     password: password.toString(),
   };
@@ -71,8 +71,8 @@ export const handleRegister = async (
     });
     const respJs = await response.json();
     if (!response.ok) {
-      returnedState.serverErrors = [respJs.error_description] ?? [
-        "Failed to register",
+      returnedState.serverErrors = [
+        respJs.error_description ?? "Failed to register",
       ];
 
       return returnedState;

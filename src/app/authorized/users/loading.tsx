@@ -1,9 +1,7 @@
 import { Spinner } from "@/components/ui/spinner";
 import React from "react";
 
-type Props = {};
-
-const Loading = (props: Props) => {
+const Loading = () => {
   return (
     <div className="m-auto flex flex-col items-center justify-center">
       <Spinner className="self-center text-blue-500 " size={"large"} />

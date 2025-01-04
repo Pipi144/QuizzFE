@@ -1,9 +1,6 @@
 import React from "react";
 import EditForm from "./_components/EditForm";
 import BackButton from "../../../../components/BackButton";
-import { baseAddress } from "@/baseAddress";
-import { getValidCookieToken } from "@/utils/serverHelperFnc";
-import { API_TAG } from "@/utils/apiTags";
 import { fetchQuestionById } from "../questionApi";
 
 export type TUpdateUserState = {

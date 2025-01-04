@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimationProps, motion } from "framer-motion";
-import React, { useActionState, useCallback } from "react";
+import React, { useActionState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 
@@ -10,14 +10,12 @@ import { Spinner } from "@/components/ui/spinner";
 import { TLoginState } from "../../../../models/AuthModels";
 import { handleLogin } from "../actions";
 
-type Props = {};
-
-const LoginForm = (props: Props) => {
+const LoginForm = () => {
   const [state, dispatch, isPending] = useActionState<
     TLoginState | undefined,
     FormData
   >(async (prev, formData) => {
-    let result = await handleLogin(formData);
+    const result = await handleLogin(formData);
 
     return result;
   }, {});

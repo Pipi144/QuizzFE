@@ -26,11 +26,10 @@ export const updateUser = async (
     name,
     userId,
   });
-  let returnedState: TUpdateUserState = {
+  const returnedState: TUpdateUserState = {
     name,
     nickName,
   };
-  console.log("UPDATE USER");
   if (!validation.success) {
     returnedState.errorName = await findErrors("name", validation.error.issues);
     returnedState.errorServer = await findErrors(
@@ -46,7 +45,7 @@ export const updateUser = async (
     const header = new Headers();
     header.set("Authorization", `Bearer ${accessToken}`);
     header.set("Content-Type", "application/json");
-    let body = JSON.stringify({
+    const body = JSON.stringify({
       name,
       nickName,
       roleId: currentRoleId !== newRoleId ? newRoleId : null,
@@ -60,7 +59,6 @@ export const updateUser = async (
       body,
     });
     const respJs = await resp.json();
-    console.log("EDIT USER ACTION:", respJs);
     if (!resp.ok) {
       returnedState.errorServer = [
         respJs.error_description ?? "Failed to update user",
@@ -69,9 +67,50 @@ export const updateUser = async (
       return returnedState;
     }
   } catch (error) {
+    console.error("Error update user:", error);
     returnedState.errorServer = ["Error update user: " + error];
+    return returnedState;
   }
 
   revalidatePath(QuizAppRoutes.Users, "layout");
   redirect(QuizAppRoutes.Users);
 };
+
+type TResponseUserAPI = {
+  errorMessage: string;
+  errorTitle: string;
+};
+export async function deleteUser(
+  userId: string
+): Promise<TResponseUserAPI | undefined> {
+  try {
+    const accessToken = await getValidCookieToken();
+    if (!accessToken)
+      return {
+        errorMessage: "Missing access token",
+        errorTitle: "Unauthorized",
+      };
+    const header = new Headers();
+    header.set("Authorization", `Bearer ${accessToken}`);
+    header.set("Content-Type", "application/json");
+    const resp = await fetch(`${baseAddress}/api/User/${userId}`, {
+      method: "DELETE",
+      headers: header,
+    });
+    // Simulate deletion logic
+    if (!resp.ok) {
+      console.log("DELETE NOT OK:", resp.status);
+      const respJson = await resp.json();
+      return {
+        errorMessage: "Delete user failed from server:" + respJson.message,
+        errorTitle: "Failed Request",
+      };
+    } else revalidatePath(QuizAppRoutes.Users, "page");
+  } catch (error) {
+    console.error("Error delete user:", error);
+    return {
+      errorMessage: "Failed to delete user.",
+      errorTitle: "Unexpected Error",
+    };
+  }
+}

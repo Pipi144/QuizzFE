@@ -44,6 +44,13 @@ type TResponseQuizAPI = {
   errorMessage: string;
   errorTitle: string;
 };
+
+type TAPIQuizBody = {
+  quizName: string;
+  createdByUserId: string;
+  questionIds: string[]; // Assuming question IDs are strings
+  timeLimit?: number; // Optional property
+};
 export const addQuiz = async ({
   quizName,
   timeLimit,
@@ -81,12 +88,12 @@ export const addQuiz = async ({
         errorTitle: "User session expired",
       };
     }
-    const body: any = {
+    const body: TAPIQuizBody = {
       quizName,
       createdByUserId: userInfo.userId,
       questionIds: questions.map((q) => q.id),
     };
-    if (timeLimit) body.timeLimit = timeLimit;
+    if (timeLimit) body.timeLimit = Number(timeLimit);
     const res = await fetch(`${baseAddress}/api/quiz`, {
       method: "POST",
       headers: {
@@ -104,6 +111,7 @@ export const addQuiz = async ({
       };
     }
   } catch (error) {
+    console.log("ERROR ADD QUIZ:", error);
     return {
       errorMessage: "Failed to add quiz",
       errorTitle: "Unexpected Error",
@@ -183,6 +191,7 @@ export const deleteQuiz = async (quizId: string) => {
     if (!response.ok) revalidateTag(API_TAG.QuizList);
     return response.ok;
   } catch (error) {
+    console.log("ERROR DELETE QUIZ:", error);
     return false;
   }
 };
@@ -231,6 +240,7 @@ export const submitQuiz = async ({
     }
     return respJson as TQuizAttempt;
   } catch (error) {
+    console.log("ERROR SUBMIT QUIZ:", error);
     return {
       errorMessage: "Failed to submit quiz",
       errorTitle: "Unexpected Error",

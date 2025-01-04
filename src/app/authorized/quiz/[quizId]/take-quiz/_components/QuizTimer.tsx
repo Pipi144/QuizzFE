@@ -5,13 +5,9 @@ import AnimatedSpan from "@/components/AnimatedComponents/AnimatedSpan";
 import { Variants } from "framer-motion";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import SubmitQuiz from "./SubmitQuiz";
 
-type Props = {};
-
-const QuizTimer = (props: Props) => {
+const QuizTimer = () => {
   const [showDialogTimesUp, setshowDialogTimesUp] = useState(false);
 
   const {

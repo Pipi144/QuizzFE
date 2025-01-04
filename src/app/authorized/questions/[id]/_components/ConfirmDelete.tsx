@@ -12,12 +12,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
-import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
+import QuizAppRoutes from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { deleteQuestion } from "../../action";
-import { revalidateTag } from "next/cache";
-import { API_TAG } from "@/utils/apiTags";
 
 type Props = {
   questionId: string;

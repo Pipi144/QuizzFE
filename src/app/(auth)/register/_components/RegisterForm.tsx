@@ -8,14 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 
-type Props = {};
-
-const RegisterForm = (props: Props) => {
+const RegisterForm = () => {
   const [state, dispatch, isPending] = useActionState<
     TRegisterState | undefined,
     FormData
   >(async (prev, formData) => {
-    let result = await handleRegister(formData);
+    const result = await handleRegister(formData);
     return result;
   }, {});
 

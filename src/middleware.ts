@@ -1,7 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { COOKIES_KEYS } from "./utils/cookies";
 import QuizAppRoutes, { AUTHORIZED_PREFIX } from "./RoutePaths";
-import { revalidatePath } from "next/cache";
 
 export function middleware(rq: NextRequest) {
   if (rq.nextUrl.pathname === QuizAppRoutes.Home) return;

@@ -1,9 +1,7 @@
 import QuizAppRoutes from "@/RoutePaths";
-import { Button } from "@/components/ui/button";
 import {
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -11,9 +9,7 @@ import Link from "next/link";
 import React from "react";
 import RegisterForm from "./_components/RegisterForm";
 
-type Props = {};
-
-const Register = (props: Props) => {
+const Register = () => {
   return (
     <>
       <CardHeader>

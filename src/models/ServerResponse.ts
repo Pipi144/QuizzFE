@@ -1,4 +1,3 @@
-import { TBasicQuestion } from "./question";
 import { TBasicUser } from "./user";
 
 export type TGetUserListResponse = {

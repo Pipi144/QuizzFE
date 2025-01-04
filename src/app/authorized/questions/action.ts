@@ -63,6 +63,7 @@ export const addQuestion = async (
       };
     }
   } catch (error) {
+    console.log("ERROR ADD QUESTION:", error);
     return {
       errorMessage: "Failed to add question",
       errorTitle: "Unexpected Error",
@@ -130,6 +131,7 @@ export const deleteQuestion = async (questionId: string) => {
     if (response.ok) revalidateTag(API_TAG.QuestionList);
     return response.ok;
   } catch (error) {
+    console.error("Error deleting question:", error);
     return false;
   }
 };

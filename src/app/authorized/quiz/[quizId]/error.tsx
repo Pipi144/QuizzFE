@@ -1,10 +1,10 @@
 "use client";
+import { Button } from "@/components/ui/button";
 import QuizAppRoutes from "@/RoutePaths";
-import Link from "next/link";
+
+import { useRouter } from "next/navigation";
 import React from "react";
 import { MdOutlineError } from "react-icons/md";
-
-type Props = {};
 
 const Error = ({
   error,
@@ -13,6 +13,11 @@ const Error = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
+  const router = useRouter();
+  const handleReset = () => {
+    reset();
+    router.replace(QuizAppRoutes.QuestionList);
+  };
   return (
     <div className="w-full h-full flex flex-col justify-center items-center">
       <span className="text-[25px] md:text-[35px] text-white font-concert mb-[20px]">
@@ -21,12 +26,12 @@ const Error = ({
 
       <MdOutlineError className="text-[70px] md:text-[90px] text-white" />
 
-      <Link
-        className="bg-white text-black px-4 py-1 rounded-sm min-w-12 mt-5"
-        href={QuizAppRoutes.QuestionList}
+      <Button
+        className="bg-white text-black hover:opacity-80 hover:bg-white hover:text-black px-4 py-1 rounded-sm min-w-12 mt-5"
+        onClick={handleReset}
       >
-        Go to questions
-      </Link>
+        Go home questions
+      </Button>
     </div>
   );
 };

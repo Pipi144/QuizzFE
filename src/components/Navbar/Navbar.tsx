@@ -13,9 +13,7 @@ import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
 import MenuItem from "./MenuItem";
 import LogoutBtn from "./LogoutBtn";
 
-type Props = {};
-
-const Navbar = async (props: Props) => {
+const Navbar = async () => {
   const userInfo = await getCrtUserInfo();
 
   const isAdmin = Boolean(

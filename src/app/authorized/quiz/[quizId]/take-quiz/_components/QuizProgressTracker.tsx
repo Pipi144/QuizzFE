@@ -2,9 +2,8 @@
 import React from "react";
 import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import ProgressBar from "@ramonak/react-progress-bar";
-type Props = {};
 
-const QuizProgressTracker = (props: Props) => {
+const QuizProgressTracker = () => {
   const { quizInfo, currentQuestionIdx } = useTakeQuizContext();
   const completedPercentage =
     ((currentQuestionIdx + 1) / quizInfo.numberOfQuestions) * 100;

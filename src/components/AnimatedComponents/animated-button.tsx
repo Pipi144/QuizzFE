@@ -1,10 +1,5 @@
 "use client";
-import {
-  AnimatePresence,
-  HTMLMotionProps,
-  Variants,
-  motion,
-} from "framer-motion";
+import { HTMLMotionProps, Variants, motion } from "framer-motion";
 import React from "react";
 
 type TButtonAnimatedVariants = "fade" | "fadeInLeft" | "fadeInRight";
@@ -52,5 +47,7 @@ const AnimatedButton = React.forwardRef<HTMLButtonElement, AnimatedButtonProps>(
     return <motion.button ref={ref} {...animatedProps} {...props} />;
   }
 );
+
+AnimatedButton.displayName = "AnimatedButton";
 
 export default AnimatedButton;

@@ -4,9 +4,7 @@ import React from "react";
 import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import { Button } from "@/components/ui/button";
 
-type Props = {};
-
-const QuizIntroduction = (props: Props) => {
+const QuizIntroduction = () => {
   const { quizInfo, setIsQuizStart } = useTakeQuizContext();
   return (
     <>

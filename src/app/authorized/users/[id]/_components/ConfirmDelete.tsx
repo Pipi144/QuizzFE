@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
-import QuizAppRoutes, { QuizAPIRoutes } from "@/RoutePaths";
+import QuizAppRoutes from "@/RoutePaths";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { deleteUser } from "../../actions";
 
 type Props = {
   userId: string;
@@ -27,19 +28,12 @@ const ConfirmDelete = ({ userId }: Props) => {
   const onDelete = async () => {
     try {
       setIsDeleting(true);
-      const res = await fetch(QuizAPIRoutes.DeleteUser, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId }),
-      });
+      const res = await deleteUser(userId);
 
-      if (!res.ok) {
-        const respJson = await res.json();
+      if (res) {
         toast({
-          title: "Failed to delete user!",
-          description: respJson.message ?? "Unknown error",
+          title: res.errorTitle,
+          description: res.errorMessage,
           variant: "destructive",
         });
       } else router.replace(QuizAppRoutes.Users);

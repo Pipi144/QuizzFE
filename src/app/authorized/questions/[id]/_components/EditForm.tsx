@@ -68,6 +68,7 @@ const EditForm = ({ question }: Props) => {
         replace(QuizAppRoutes.QuestionList);
       }
     } catch (error) {
+      console.log("ERROR FAILED EditForm:", error);
       toast({
         title: "Failed to add question",
         description: "Unexpected error",

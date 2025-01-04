@@ -8,9 +8,7 @@ import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import QuizAppRoutes from "@/RoutePaths";
 
-type Props = {};
-
-const SubmitQuiz = (props: Props) => {
+const SubmitQuiz = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmSubmit, setshowConfirmSubmit] = useState(false);
   const { quizInfo, answers, deleteQuizSessionStorage } = useTakeQuizContext();
@@ -35,6 +33,7 @@ const SubmitQuiz = (props: Props) => {
         });
       }
     } catch (error) {
+      console.log("ERROR FAILED SubmitQuiz:", error);
       toast({
         title: "Failed to delete quiz!",
         description: "onDelete failed",

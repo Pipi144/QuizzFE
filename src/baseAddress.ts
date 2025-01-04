@@ -1,3 +1,5 @@
-const offline: boolean = true;
+const offline: boolean = false;
 
-export const baseAddress = offline ? "https://localhost:7285" : "";
+export const baseAddress = offline
+  ? "https://localhost:7285"
+  : "https://peter-quiz-app.azurewebsites.net";

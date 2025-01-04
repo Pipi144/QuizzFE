@@ -2,7 +2,6 @@ import { baseAddress } from "@/baseAddress";
 import QuizAppRoutes from "@/RoutePaths";
 import { getValidCookieToken } from "@/utils/serverHelperFnc";
 import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(rq: NextRequest) {
@@ -47,5 +46,4 @@ export async function DELETE(rq: NextRequest) {
     );
   }
   revalidatePath(QuizAppRoutes.Users);
-  redirect(QuizAppRoutes.Users);
 }

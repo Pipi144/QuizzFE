@@ -7,10 +7,8 @@ import { cookies } from "next/headers";
 import { COOKIES_KEYS } from "@/utils/cookies";
 import { redirect } from "next/navigation";
 import QuizAppRoutes from "@/RoutePaths";
-import { revalidateTag } from "next/cache";
 import { API_TAG } from "@/utils/apiTags";
 import { findErrors } from "@/utils/serverHelperFnc";
-import { getCrtUserInfo } from "@/app/authorized/users/usersApi";
 
 const schema = z.object({
   email: z
@@ -29,7 +27,7 @@ export const handleLogin = async (
     email,
     password,
   });
-  let returnedState: TLoginState = {
+  const returnedState: TLoginState = {
     email: email.toString(),
     password: password.toString(),
   };
