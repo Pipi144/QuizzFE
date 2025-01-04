@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import { CircularProgressbarWithChildren } from "react-circular-progressbar";
 import AnimatedSpan from "@/components/AnimatedComponents/AnimatedSpan";
 import { Variants } from "framer-motion";
-import ConfirmDialog from "@/components/ConfirmDialog";
-import { Button } from "@/components/ui/button";
 import SubmitQuiz from "./SubmitQuiz";
 
 const QuizTimer = () => {
