@@ -99,5 +99,5 @@ export const handleLogin = async (
     return returnedState;
   }
 
-  redirect(QuizAppRoutes.QuestionList); // redirect to question list when successfully login
+  redirect(QuizAppRoutes.Quiz); // redirect to quiz list when successfully login
 };

@@ -25,6 +25,7 @@ export const getAllQuizzes = async ({
   const response = await fetch(url, {
     headers: header,
     method: "GET",
+
     next: {
       tags: [API_TAG.QuizList],
     },
