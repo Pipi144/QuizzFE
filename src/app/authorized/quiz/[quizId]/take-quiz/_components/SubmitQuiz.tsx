@@ -2,7 +2,7 @@ import LoaderOverlay from "@/components/LoaderOverlay";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { submitQuiz } from "../../../actions";
 import { useTakeQuizContext } from "../_provider/TakeQuizProvider";
 import ConfirmDialog from "@/components/ConfirmDialog";
@@ -11,7 +11,10 @@ import QuizAppRoutes from "@/RoutePaths";
 const SubmitQuiz = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmSubmit, setshowConfirmSubmit] = useState(false);
-  const { quizInfo, answers, deleteQuizSessionStorage } = useTakeQuizContext();
+
+  const [showDialogTimesUp, setshowDialogTimesUp] = useState(false);
+  const { quizInfo, answers, deleteQuizSessionStorage, timeCountDown } =
+    useTakeQuizContext();
   const { toast } = useToast();
   const router = useRouter();
   const onSubmit = async () => {
@@ -43,6 +46,13 @@ const SubmitQuiz = () => {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    if (quizInfo.timeLimit && timeCountDown !== null && timeCountDown <= 0) {
+      setshowDialogTimesUp(true);
+    }
+  }, [quizInfo.timeLimit, timeCountDown]);
+
   return (
     <>
       <Button
@@ -71,6 +81,19 @@ const SubmitQuiz = () => {
               Submit
             </Button>
           </div>
+        }
+      />
+      <ConfirmDialog
+        open={showDialogTimesUp}
+        onOpenChange={setshowDialogTimesUp}
+        title="Time's up!"
+        footerContent={
+          <Button
+            className="bg-black text-white hover:bg-black ml-3"
+            onClick={onSubmit}
+          >
+            Submit
+          </Button>
         }
       />
       <LoaderOverlay isOpen={isSubmitting} backdrop="blur" />

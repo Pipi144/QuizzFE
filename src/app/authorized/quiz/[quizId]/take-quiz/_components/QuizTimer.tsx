@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import SubmitQuiz from "./SubmitQuiz";
 
 const QuizTimer = () => {
-  const [showDialogTimesUp, setshowDialogTimesUp] = useState(false);
-
   const {
     timeCountDown,
     setTimeCountDown,
@@ -97,12 +95,6 @@ const QuizTimer = () => {
         </CircularProgressbarWithChildren>
       </div>
       <SubmitQuiz />
-      <ConfirmDialog
-        open={showDialogTimesUp}
-        onOpenChange={setshowDialogTimesUp}
-        title="Time's up!"
-        footerContent={<Button>Submit</Button>}
-      />
     </div>
   );
 };
