@@ -85,12 +85,20 @@ const SubmitQuiz = () => {
       />
       <ConfirmDialog
         open={showDialogTimesUp}
-        onOpenChange={setshowDialogTimesUp}
+        onOpenChange={(open) => {
+          setshowDialogTimesUp(open);
+
+          if (!open) onSubmit();
+        }}
         title="Time's up!"
+        description="You have run out of time!"
         footerContent={
           <Button
             className="bg-black text-white hover:bg-black ml-3"
-            onClick={onSubmit}
+            onClick={() => {
+              onSubmit();
+              setshowDialogTimesUp(false);
+            }}
           >
             Submit
           </Button>
