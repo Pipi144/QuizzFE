@@ -9,9 +9,9 @@ import QuizAppRoutes from "@/RoutePaths";
 import dayjs from "dayjs";
 import Link from "next/link";
 import React, { memo } from "react";
-import { FaUserPen } from "react-icons/fa6";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { GiNotebook } from "react-icons/gi";
+import { MdModeEditOutline } from "react-icons/md";
 type Props = {
   quiz: TBasicQuiz;
 };
@@ -41,7 +41,7 @@ const QuizRow = ({ quiz }: Props) => {
           <Tooltip delayDuration={0}>
             <TooltipTrigger className="mx-2">
               <Link href={`${QuizAppRoutes.Quiz}/${quiz.quizId}`}>
-                <FaUserPen className="text-white" size={20} />
+                <MdModeEditOutline className="text-white" size={20} />
               </Link>
             </TooltipTrigger>
             <TooltipContent>

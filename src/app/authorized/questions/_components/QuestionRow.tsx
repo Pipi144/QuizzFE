@@ -8,7 +8,7 @@ import { TBasicQuestion } from "@/models/question";
 import QuizAppRoutes from "@/RoutePaths";
 import Link from "next/link";
 import React from "react";
-import { FaUserPen } from "react-icons/fa6";
+import { MdModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
 type Props = {
@@ -25,7 +25,7 @@ const QuestionRow = ({ question }: Props) => {
           <Tooltip delayDuration={0}>
             <TooltipTrigger className="mx-2">
               <Link href={`${QuizAppRoutes.QuestionList}/${question.id}`}>
-                <FaUserPen className="text-white" size={20} />
+                <MdModeEditOutline className="text-white" size={20} />
               </Link>
             </TooltipTrigger>
             <TooltipContent>

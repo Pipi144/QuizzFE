@@ -9,7 +9,7 @@ import { TBasicUser } from "@/models/user";
 import dayjs from "dayjs";
 import Link from "next/link";
 import React from "react";
-import { FaUserPen } from "react-icons/fa6";
+import { MdModeEditOutline } from "react-icons/md";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 
 type Props = {
@@ -26,7 +26,7 @@ const UserRow = ({ user }: Props) => {
           <Tooltip delayDuration={0}>
             <TooltipTrigger className="mx-2">
               <Link href={`${QuizAppRoutes.Users}/${user.userId}`}>
-                <FaUserPen className="text-white" size={20} />
+                <MdModeEditOutline className="text-white" size={20} />
               </Link>
             </TooltipTrigger>
             <TooltipContent>
