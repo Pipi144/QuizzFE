@@ -61,36 +61,40 @@ const QuizTimer = () => {
       window.removeEventListener("unload", handleUnload);
     };
   }, []);
-  if (!quizInfo.timeLimit) return null;
+
   return (
     <div className="w-full items-center justify-between flex mt-4">
       <div className="w-14 h-14 self-start ">
-        <CircularProgressbarWithChildren
-          value={percentage}
-          styles={{
-            path: {
-              stroke: `white`,
-              strokeWidth: "6px", // Thickness of the path
-              strokeLinecap: "round", // Rounded ends for the progress path
-            },
-            trail: {
-              stroke: "transparent", // Color of the trail
-              strokeWidth: "12px", // Thickness of the trail
-              strokeLinecap: "round", // Rounded ends for the trail
-            },
-            root: {
-              padding: 4,
-            },
-          }}
-        >
-          <AnimatedSpan
-            className=" font-concert text-xs font-medium"
-            animate={percentage <= 15 && percentage > 0 ? "timesUp" : "initial"}
-            variants={textAnimatedVariants}
+        {quizInfo.timeLimit && (
+          <CircularProgressbarWithChildren
+            value={percentage}
+            styles={{
+              path: {
+                stroke: `white`,
+                strokeWidth: "6px", // Thickness of the path
+                strokeLinecap: "round", // Rounded ends for the progress path
+              },
+              trail: {
+                stroke: "transparent", // Color of the trail
+                strokeWidth: "12px", // Thickness of the trail
+                strokeLinecap: "round", // Rounded ends for the trail
+              },
+              root: {
+                padding: 4,
+              },
+            }}
           >
-            {minutes}:{seconds}
-          </AnimatedSpan>
-        </CircularProgressbarWithChildren>
+            <AnimatedSpan
+              className=" font-concert text-xs font-medium"
+              animate={
+                percentage <= 15 && percentage > 0 ? "timesUp" : "initial"
+              }
+              variants={textAnimatedVariants}
+            >
+              {minutes}:{seconds}
+            </AnimatedSpan>
+          </CircularProgressbarWithChildren>
+        )}
       </div>
       <SubmitQuiz />
     </div>
